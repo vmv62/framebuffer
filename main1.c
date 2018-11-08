@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	int bitmap = open("./1.bmp", O_RDWR);
 	
 	fseek(bitmap, 0x0A, SEEK_SET);
-	int shift
+	int shift;
 	for(char i=0; i<4; i++){
 		shift += getc(bitmap)<<(i*4);
 	}
