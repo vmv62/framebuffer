@@ -16,16 +16,17 @@ int main(int argc, char* argv[])
   long int screensize = 0;
   char *fbp = 0;
 
-	//Open bitmap file 
-	int bitmap = open("./1.bmp", O_RDWR);
-	
-	fseek(&bitmap, 0x0A, SEEK_SET);
-	int shift;
-	for(char i=0; i<4; i++){
-		shift += getc(bitmap)<<(i*4);
-	}
+	//Open bitmap file
+	FILE *bitmap = fopen("1.bmp", "r");
 
-	printf("Bitmap shift: %d", shift);
+	fseek(bitmap, 0x0A, SEEK_SET);
+	int shift;
+
+	shift = getc(bitmap);
+	fseek(bitmap, shift, SEEK_SET);
+	printf("Bitmap shift: %d\n", shift);
+
+
   // Open the framebuffer file for reading and writing
   fbfd = open("/dev/fb0", O_RDWR);
   if (!fbfd) {
@@ -46,7 +47,6 @@ int main(int argc, char* argv[])
   printf("%d\t%dx%d, %d bpp\n", finfo.smem_len, vinfo.xres, vinfo.yres, 
          vinfo.bits_per_pixel );
 
-	printf("Bit per pixel: ", vinfo.bits_per_pixel);
   // map framebuffer to user memory 
   screensize = finfo.smem_len;
 
@@ -60,13 +60,18 @@ int main(int argc, char* argv[])
     printf("Failed to mmap.\n");
   }
   else {
-    // draw...
-	
+    // draw..
+	int cnt=0;
+	while(cnt < (vinfo.xres * vinfo.yres * 32)){
+		*fbp = getc(bitmap);
+		cnt++;
+		fbp++;
+	}
   }
 
 	// cleanup
 	munmap(fbp, screensize);
 	close(fbfd);
-	close(bitmap);
+	fclose(bitmap);
 	return 0;
 }
