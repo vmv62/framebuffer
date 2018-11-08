@@ -18,8 +18,14 @@ int main(int argc, char* argv[])
 
 	//Open bitmap file 
 	int bitmap = open("./1.bmp", O_RDWR);
+	
+	fseek(bitmap, 0x0A, SEEK_SET);
+	int shift
+	for(char i=0; i<4; i++){
+		shift += getc(bitmap)<<(i*4);
+	}
 
-
+	printf("Bitmap shift: %d", shift);
   // Open the framebuffer file for reading and writing
   fbfd = open("/dev/fb0", O_RDWR);
   if (!fbfd) {
