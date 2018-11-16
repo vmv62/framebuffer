@@ -66,15 +66,16 @@ int main()
    int cur = ((vinfo.xres * 4)*(y-1)) + (x*4);
 
    for(int i =0; i < screensize; i++){
-      *(fbp + i) = 0x00;
+      *(fbp + i) = 0xff;
    }
 
    fbp += cur;
 
    for(int i=0; i < xp; i++){
-      *(fbp + 0) = 0xff;
-      *(fbp + 1) = 0xff;
-      *(fbp + 2) = 0xff;
+      *(fbp + 0) = 0x00;
+      *(fbp + 1) = 0x00;
+      *(fbp + 2) = 0x00;
+		*(fbp + 3) = 0x00;
       fbp += 4;
    }
 
