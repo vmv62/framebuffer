@@ -12,15 +12,14 @@ uint32_t main(uint32_t argc, uint8_t **argv){
 		printf("Cant open file\n");
 	}
 
-	fseek(fd, SEEK_SET, 18);
+	fseek(fd, 18, SEEK_SET);
 
 	uint8_t buff[4];
-	for(uint8_t i=0; i < 4; i++){
-		buff[i] = getc(fd);
-	}
+	buff[0] = getc(fd);
 
-	uint32_t width = buff[3]<< 24 | buff[2]4F?buff[0]
-	printf("Width: %d\n", );
+	uint32_t width;
+	width = (buff[3]<< 24) + (buff[2] << 16) + (buff[1] << 8) + buff[0];
+	printf("Width: %d\n", buff[0]);
 
 	fclose(fd);
 }
