@@ -16,6 +16,7 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include <linux/fb.h>
 #include <sys/mman.h>
 #include <sys/ioctl.h>
+#include "bmp.h"
 
 int main()
 {
@@ -65,9 +66,9 @@ int main()
 
    int cur = ((vinfo.xres * 4)*(y-1)) + (x*4);
 
-   for(int i =0; i < screensize; i++){
-      *(fbp + i) = 0xff;
-   }
+//   for(int i =0; i < screensize; i++){
+//      *(fbp + i) = 0xff;
+//   }
 
    fbp += cur;
 

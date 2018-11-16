@@ -6,5 +6,5 @@ all: $(FILES)
 commit:
 	git add --all && git commit -m "auto commit" && git push -f
 
-edit_amd_run:
+edit:
 	nano $(FILES) && make && ./to_screen
