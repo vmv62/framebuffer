@@ -1,3 +1,9 @@
+#define OFFSET_SIZE	2
+#define OFFSET_WIDTH	18
+#define OFFSET_HEIGHT	22
+#define OFFSET_BITCOUNT	28
+#define OFFSET_IMAGESIZE	34
+
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
