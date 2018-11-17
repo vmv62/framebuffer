@@ -61,27 +61,23 @@ int main()
     }
     printf("The framebuffer device was mapped to memory successfully.\n");
 
-   x = 400; y = 500;       // Координаты начала изображения.
-   int xp = 100, yp = 100;     // Размер выводимого изображения.
+	FILE *fd;
 
-   int cur = ((vinfo.xres * 4)*(y-1)) + (x*4);
+	fd = fopen("1.bmp", "r");
 
-//   for(int i =0; i < screensize; i++){
-//      *(fbp + i) = 0xff;
-//   }
+	fseek(fd , 0x3E, SEEK_SET);
+	char color;
+	for(int i = 0; i < vinfo.xres * vinfo.yres; i++){
+		color = fgetc(fd);
+		*(fbp) = color;
+		*(fbp + 1) = color;
+		*(fbp + 2) = color;
+//		*(fbp + 3) = 0;
+		fbp +=32;
+	}
 
-   fbp += cur;
-
-   for(int i=0; i < xp; i++){
-      *(fbp + 0) = 0x00;
-      *(fbp + 1) = 0x00;
-      *(fbp + 2) = 0x00;
-		*(fbp + 3) = 0x00;
-      fbp += 4;
-   }
-
-
-    munmap(fbp, screensize);
-    close(fbfd);
-    return 0;
+   munmap(fbp, screensize);
+	fclose(fd);
+   close(fbfd);
+   return 0;
 }

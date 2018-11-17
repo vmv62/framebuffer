@@ -12,6 +12,8 @@ uint32_t main(uint32_t argc, uint8_t **argv){
 	get_pic_param("1.bmp", img);
 	printf("Width: %d\n", img->width);
 	printf("Height: %d\n", img->height);
+   printf("Bit per pixel: %d\n", img->bit_pp);
+	printf("Bit field offset: %d\n", img->pixel_offset);
 
 	free(img);
 	return 0;
@@ -23,7 +25,7 @@ int get_pic_param(uint8_t *file, img_data_t *img){
 
 	fd = fopen(file, "r");
 	if(fd == NULL){
-		printf("Cant open file\n");
+		return CANT_OPEN_FILE;
 	}
 
 	//Проверяем является ли файл БМП файлом.
@@ -36,7 +38,7 @@ int get_pic_param(uint8_t *file, img_data_t *img){
 	fseek(fd, OFFSET_WIDTH, SEEK_SET);
 
 	if(NULL == fgets(buff, 4, fd)){
-		printf("errorw while reading file\n");
+		return ERROR_WHILE_READ_FILE;
 	}
 	else{
 		img->width = get_int_value(buff);
@@ -46,12 +48,31 @@ int get_pic_param(uint8_t *file, img_data_t *img){
 	fseek(fd, OFFSET_HEIGHT, SEEK_SET);
 
 	if(NULL == fgets(buff, 4, fd)){
-		printf("errorw while reading file\n");
+		return ERROR_WHILE_READ_FILE;
 	}
 	else{
 		img->height = get_int_value(buff);
 	}
 
+	//Читем сколько бит на каждый пиксель приходится.
+	fseek(fd, OFFSET_BITCOUNT, SEEK_SET);
+
+	if(NULL == fgets(buff, 2, fd)){
+		return ERROR_WHILE_READ_FILE;
+	}
+	else{
+		img->bit_pp = buff[0] + (buff[1]<<8);
+	}
+
+	//Находим смещение данных по поикселя от начала файла
+	fseek(fd, OFFSET_PIXEL_DATA, SEEK_SET);
+
+	if(NULL == fgets(buff, 4, fd)){
+		return ERROR_WHILE_READ_FILE;
+	}
+	else{
+		img->pixel_offset = get_int_value(buff);
+	}
 
 
 	fclose(fd);

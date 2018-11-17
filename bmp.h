@@ -1,7 +1,8 @@
-#define OFFSET_SIZE	2
-#define OFFSET_WIDTH	17
-#define OFFSET_HEIGHT	21
-#define OFFSET_BITCOUNT	28
+#define OFFSET_SIZE	0x02
+#define OFFSET_PIXEL_DATA 10
+#define OFFSET_WIDTH	0x11
+#define OFFSET_HEIGHT	0x15
+#define OFFSET_BITCOUNT	0x1C
 #define OFFSET_IMAGESIZE	34
 
 typedef unsigned char uint8_t;
@@ -9,33 +10,18 @@ typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
 
 typedef struct{
-	uint8_t signature[2];
-	uint32_t size;
-	uint32_t reserved;
-	uint32_t offset;
-	uint32_t header_size;
-	uint32_t width;
-	uint32_t height;
-	uint8_t planes;
-	uint8_t bit_count;
-	uint32_t compression;
-	uint32_t size_image;
-	uint32_t xpels_per_meter;
-	uint32_t ypels_per_meter;
-	uint32_t colors_used;
-	uint32_t colors_impotant;
-}bmp_header_t;
-
-typedef struct{
 	uint32_t width;
 	uint32_t height;
 	uint16_t bit_pp;
+	uint32_t pixel_offset;
 	uint8_t	*bit_field;
 }img_data_t;
 
 //Ошибки при работе с картинкой
 enum{
 	FILE_NOT_BMP_FORMAT = 0x01,
+	ERROR_WHILE_READ_FILE,
+	CANT_OPEN_FILE,
 };
 
 int get_int_value(uint8_t *buff);
