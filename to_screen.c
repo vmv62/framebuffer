@@ -66,14 +66,30 @@ int main()
 	fd = fopen("1.bmp", "r");
 
 	fseek(fd , 0x3E, SEEK_SET);
+	
 	char color;
-	for(int i = 0; i < vinfo.xres * vinfo.yres; i++){
-		color = fgetc(fd);
-		*(fbp) = color;
-		*(fbp + 1) = color;
-		*(fbp + 2) = color;
-//		*(fbp + 3) = 0;
-		fbp +=32;
+	for(int i = vinfo.yres; i > 0; i--){
+
+		int str_adr = (vinfo.xres * (vinfo.yres - 1))+1;
+		for(int c = 0; c < vinfo.xres/8; c++){
+			color = fgetc(fd);
+			for(char t; t < 8; t++){
+				if((color<<t) & 0x80){
+					*(fbp + str_adr) = 0xFF;
+					*(fbp + str_adr + 1) = 0xFF;
+					*(fbp + str_adr + 2) = 0xFF;
+					*(fbp + str_adr + 3) = 0;
+				}else{
+					*(fbp + str_adr) = 0;
+					*(fbp + str_adr + 1) = 0;
+					*(fbp + str_adr + 2) = 0;
+					*(fbp + str_adr + 3) = 0;
+
+				}
+				fbp +=4;
+			}
+		}
+
 	}
 
    munmap(fbp, screensize);
