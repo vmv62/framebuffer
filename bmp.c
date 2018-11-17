@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "bmp.h"
 
+/*
 uint32_t main(uint32_t argc, uint8_t **argv){
 	//Указатель на тип данных картинки
 	img_data_t *img;
@@ -12,12 +13,13 @@ uint32_t main(uint32_t argc, uint8_t **argv){
 	get_pic_param("1.bmp", img);
 	printf("Width: %d\n", img->width);
 	printf("Height: %d\n", img->height);
-   printf("Bit per pixel: %d\n", img->bit_pp);
+   	printf("Bit per pixel: %d\n", img->bit_pp);
 	printf("Bit field offset: %d\n", img->pixel_offset);
 
 	free(img);
 	return 0;
 }
+*/
 
 int get_pic_param(uint8_t *file, img_data_t *img){
 	FILE *fd;
@@ -29,14 +31,12 @@ int get_pic_param(uint8_t *file, img_data_t *img){
 	}
 
 	//Проверяем является ли файл БМП файлом.
-
 	if(!((fgetc(fd) == 'B') && (fgetc(fd) == 'M'))){
 		return FILE_NOT_BMP_FORMAT;
 	}
 
 	//Идем за шириной картинки
 	fseek(fd, OFFSET_WIDTH, SEEK_SET);
-
 	if(NULL == fgets(buff, 4, fd)){
 		return ERROR_WHILE_READ_FILE;
 	}
@@ -46,7 +46,6 @@ int get_pic_param(uint8_t *file, img_data_t *img){
 
 	//Идем за высотой картинки.
 	fseek(fd, OFFSET_HEIGHT, SEEK_SET);
-
 	if(NULL == fgets(buff, 4, fd)){
 		return ERROR_WHILE_READ_FILE;
 	}
@@ -56,7 +55,6 @@ int get_pic_param(uint8_t *file, img_data_t *img){
 
 	//Читем сколько бит на каждый пиксель приходится.
 	fseek(fd, OFFSET_BITCOUNT, SEEK_SET);
-
 	if(NULL == fgets(buff, 2, fd)){
 		return ERROR_WHILE_READ_FILE;
 	}
@@ -66,12 +64,11 @@ int get_pic_param(uint8_t *file, img_data_t *img){
 
 	//Находим смещение данных по поикселя от начала файла
 	fseek(fd, OFFSET_PIXEL_DATA, SEEK_SET);
-
 	if(NULL == fgets(buff, 4, fd)){
 		return ERROR_WHILE_READ_FILE;
 	}
 	else{
-		img->pixel_offset = get_int_value(buff);
+		img->pixel_offset = buff[0];//get_int_value(buff);
 	}
 
 

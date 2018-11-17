@@ -1,5 +1,5 @@
 #define OFFSET_SIZE	0x02
-#define OFFSET_PIXEL_DATA 10
+#define OFFSET_PIXEL_DATA 0xA
 #define OFFSET_WIDTH	0x11
 #define OFFSET_HEIGHT	0x15
 #define OFFSET_BITCOUNT	0x1C
@@ -8,6 +8,13 @@
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
+
+typedef struct{
+	uint8_t type;
+	uint32_t size;
+	uint32_t reserved;
+	uint32_t jffset_bits;
+}bmp_header_t;
 
 typedef struct{
 	uint32_t width;

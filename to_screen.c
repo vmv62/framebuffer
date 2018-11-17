@@ -61,39 +61,27 @@ int main()
     }
     printf("The framebuffer device was mapped to memory successfully.\n");
 
+	img_data_t *img;
+	img = (img_data_t *)malloc(sizeof(img_data_t));
+
+	get_pic_param("1.bmp", img);
+
+	printf("Wigth: %d, Height: %d, BPP: %d\n", img->width, img->height, img->bit_pp);
+
 	FILE *fd;
 
 	fd = fopen("1.bmp", "r");
 
-	fseek(fd , 0x3E, SEEK_SET);
-	
-	char color;
-	for(int i = vinfo.yres; i > 0; i--){
+	fseek(fd , img->pixel_offset, SEEK_SET);
 
-		int str_adr = (vinfo.xres * (vinfo.yres - 1))+1;
-		for(int c = 0; c < vinfo.xres/8; c++){
-			color = fgetc(fd);
-			for(char t; t < 8; t++){
-				if((color<<t) & 0x80){
-					*(fbp + str_adr) = 0xFF;
-					*(fbp + str_adr + 1) = 0xFF;
-					*(fbp + str_adr + 2) = 0xFF;
-					*(fbp + str_adr + 3) = 0;
-				}else{
-					*(fbp + str_adr) = 0;
-					*(fbp + str_adr + 1) = 0;
-					*(fbp + str_adr + 2) = 0;
-					*(fbp + str_adr + 3) = 0;
-
-				}
-				fbp +=4;
-			}
-		}
-
+	char line[vinfo.xres];
+	for(int i = vinfo.yres; i >0; i--){
+		
 	}
 
-   munmap(fbp, screensize);
+
+   	munmap(fbp, screensize);
 	fclose(fd);
-   close(fbfd);
-   return 0;
+   	close(fbfd);
+   	return 0;
 }

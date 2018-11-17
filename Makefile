@@ -1,4 +1,4 @@
-FILES=to_screen.c
+FILES=to_screen.c bmp.c
 
 all: $(FILES)
 	gcc $(FILES) -o to_screen
