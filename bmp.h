@@ -1,6 +1,6 @@
 #define OFFSET_SIZE	2
-#define OFFSET_WIDTH	18
-#define OFFSET_HEIGHT	22
+#define OFFSET_WIDTH	17
+#define OFFSET_HEIGHT	21
 #define OFFSET_BITCOUNT	28
 #define OFFSET_IMAGESIZE	34
 
@@ -25,3 +25,18 @@ typedef struct{
 	uint32_t colors_used;
 	uint32_t colors_impotant;
 }bmp_header_t;
+
+typedef struct{
+	uint32_t width;
+	uint32_t height;
+	uint16_t bit_pp;
+	uint8_t	*bit_field;
+}img_data_t;
+
+//Ошибки при работе с картинкой
+enum{
+	FILE_NOT_BMP_FORMAT = 0x01,
+};
+
+int get_int_value(uint8_t *buff);
+int get_pic_param(uint8_t *file, img_data_t *img);
