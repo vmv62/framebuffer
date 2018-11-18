@@ -75,20 +75,31 @@ int main()
 
 	fseek(fd , img->pixel_offset, SEEK_SET);
 
-	uint32_t cursor = 0;
-	for(uint32_t i = vinfo.yres; i > 0 ; i--){
-	//Наводим курсор на последнюю строку экрана
-//		cursor = (i * (vinfo.xres)) - vinfo.xres;
-//		printf("line %d\n", i);
-		for(uint32_t t = 0; t < 1024; t++){
-				*(fbp + cursor) = fgetc(fd);
-				*(fbp + cursor + 1) = fgetc(fd);
-				*(fbp + cursor + 2) = fgetc(fd);
-				*(fbp + cursor + 3) = 127;
-				cursor += 4;
+	int xn=1024, yn=768;
+	int cur = xn * yn * 4;
+	while(yn--){
+		for(int i = 0; i < xn; i++){
+			*(fbp) = fgetc(fd);
+			*(fbp) = fgetc(fd);
+			*(fbp) = fgetc(fd);
+			*(fbp) = 0;
 		}
+		
 	}
 
+/*
+	uint32_t *cursor = (vinfo.xres * (vinfo.yres - 1)) * 4; //	bytes
+	for(uint32_t i = 0; i < vinfo.yres ; i++){		//pixel
+		for(uint32_t t = 0; t < vinfo.xres; t++){
+			*(cursor) = fgetc(fd);
+			*(cursor + 1) = fgetc(fd);
+			*(cursor + 2) = fgetc(fd);
+			*(cursor + 3) = 0;
+			cursor +=4;
+		}
+		cursor -= vinfo.xres * 4;		//bytes
+	}
+*/
 
    	munmap(fbp, screensize);
 	fclose(fd);
