@@ -76,7 +76,7 @@ int main()
 	fseek(fd , img->pixel_offset, SEEK_SET);
 
 	uint32_t cursor = 0;
-	for(uint32_t i = 0; i < vinfo.yres; i++){
+	for(uint32_t i = vinfo.yres; i > 0 ; i--){
 	//Наводим курсор на последнюю строку экрана
 //		cursor = (i * (vinfo.xres)) - vinfo.xres;
 //		printf("line %d\n", i);
