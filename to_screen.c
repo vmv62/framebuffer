@@ -1,3 +1,4 @@
+
 /*
 To test that the Linux framebuffer is set up correctly, and that the device permissions
 are correct, use the program below which opens the frame buffer and draws a gradient-
@@ -74,9 +75,18 @@ int main()
 
 	fseek(fd , img->pixel_offset, SEEK_SET);
 
-	char line[vinfo.xres];
-	for(int i = vinfo.yres; i >0; i--){
-		
+	uint32_t cursor = 0;
+	for(uint32_t i = 0; i < vinfo.yres; i++){
+	//Наводим курсор на последнюю строку экрана
+//		cursor = (i * (vinfo.xres)) - vinfo.xres;
+//		printf("line %d\n", i);
+		for(uint32_t t = 0; t < 1024; t++){
+				*(fbp + cursor) = fgetc(fd);
+				*(fbp + cursor + 1) = fgetc(fd);
+				*(fbp + cursor + 2) = fgetc(fd);
+				*(fbp + cursor + 3) = 127;
+				cursor += 4;
+		}
 	}
 
 
