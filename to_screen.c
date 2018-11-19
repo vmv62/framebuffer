@@ -18,6 +18,7 @@ http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.
 #include <sys/mman.h>
 #include <sys/ioctl.h>
 #include "bmp.h"
+#include "to_screen.h"
 
 int main()
 {
@@ -49,8 +50,6 @@ int main()
         exit(3);
     }
 
-    printf("%dx%d, %dbpp\n", vinfo.xres, vinfo.yres, vinfo.bits_per_pixel);
-
     // Figure out the size of the screen in bytes
     screensize = vinfo.xres * vinfo.yres * vinfo.bits_per_pixel / 8;
 
@@ -60,46 +59,38 @@ int main()
         perror("Error: failed to map framebuffer device to memory");
         exit(4);
     }
-    printf("The framebuffer device was mapped to memory successfully.\n");
 
 	img_data_t *img;
 	img = (img_data_t *)malloc(sizeof(img_data_t));
 
-	get_pic_param("1.bmp", img);
+	get_pic_param("1024x768.bmp", img);
 
-	printf("Wigth: %d, Height: %d, BPP: %d\n", img->width, img->height, img->bit_pp);
+	if((img->width != vinfo.xres) || (img->height != vinfo.yres)){
+		return WRONG_RESOLUTION_OF_THE_PICTURE;
+	}
 
+	//open file for show in full screen mode
 	FILE *fd;
 
-	fd = fopen("1.bmp", "r");
+	fd = fopen("1024x768.bmp", "r");
 
+	//Go to pixel field.
 	fseek(fd , img->pixel_offset, SEEK_SET);
 
-	int xn=1024, yn=768;
-	int cur = xn * yn * 4;
-	while(yn--){
-		for(int i = 0; i < xn; i++){
-			*(fbp) = fgetc(fd);
-			*(fbp) = fgetc(fd);
-			*(fbp) = fgetc(fd);
-			*(fbp) = 0;
+	uint8_t *cursor = fbp + (4 * vinfo.xres * vinfo.yres); //	bytes
+	uint8_t *line_cursor;
+	for(uint32_t i = 0; i < vinfo.yres ; i++){		//pixel
+		cursor -= vinfo.xres * 4;							//bytesi
+		line_cursor = cursor;
+		for(uint32_t t = 0; t < vinfo.xres; t++){
+			*(line_cursor) = fgetc(fd);
+			*(line_cursor + 1) = fgetc(fd);
+			*(line_cursor + 2) = fgetc(fd);
+			*(line_cursor + 3) = 0;
+			line_cursor +=4;
 		}
-		
 	}
 
-/*
-	uint32_t *cursor = (vinfo.xres * (vinfo.yres - 1)) * 4; //	bytes
-	for(uint32_t i = 0; i < vinfo.yres ; i++){		//pixel
-		for(uint32_t t = 0; t < vinfo.xres; t++){
-			*(cursor) = fgetc(fd);
-			*(cursor + 1) = fgetc(fd);
-			*(cursor + 2) = fgetc(fd);
-			*(cursor + 3) = 0;
-			cursor +=4;
-		}
-		cursor -= vinfo.xres * 4;		//bytes
-	}
-*/
 
    	munmap(fbp, screensize);
 	fclose(fd);
