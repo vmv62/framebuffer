@@ -47,30 +47,31 @@ int main()
         exit(4);
     }
 
-	img_data_t *img;
-	img = (img_data_t *)malloc(sizeof(img_data_t));
-
-	get_pic_param("Gauge.bmp", img);
-
-	printf("Pict height: %d\n", img->height);
-	printf("Pict width: %d\n", img->width);
-
-//	if((img->width != vinfo.xres) || (img->height != vinfo.yres)){
-//		return WRONG_RESOLUTION_OF_THE_PICTURE;
-//	}
-
-	send_to(0, 0, "Gauge.bmp", img, &vinfo, fbp);
+	printf("Show gauge\n");
+	send_to(100, 200, "Gauge.bmp", &vinfo, fbp);
 
    munmap(fbp, screensize);
-	free(img);
 	close(fbfd);
    return 0;
 }
 
-int send_to(uint32_t xcoord, uint32_t ycoord, uint8_t *file, img_data_t *img, struct fb_var_screeninfo *vinfo, uint8_t *fbp){
+int send_to(uint32_t xcoord, uint32_t ycoord, uint8_t *file, struct fb_var_screeninfo *vinfo, uint8_t *fbp){
 	FILE *fd;
 
 	fd = fopen(file, "r");
+	if (fd == NULL) {
+        perror("Error: cannot open image file");
+        exit(1);
+    }
+
+
+	img_data_t *img;
+	img = (img_data_t *)malloc(sizeof(img_data_t));
+
+	get_pic_param(fd, img);
+
+	printf("height - %d\n", img->height);
+	printf("width - %d\n", img->width);
 
 	//Go to pixel field.
 	fseek(fd , img->pixel_offset, SEEK_SET);
@@ -90,9 +91,7 @@ int send_to(uint32_t xcoord, uint32_t ycoord, uint8_t *file, img_data_t *img, st
 		cursor -= vinfo->xres * 4;							//bytesi
 	}
 
-
-//  	munmap(fbp, screensize);
+	free(img);
 	fclose(fd);
   	return 0;
-
 }

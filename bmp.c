@@ -21,15 +21,15 @@ uint32_t main(uint32_t argc, uint8_t **argv){
 }
 */
 
-int get_pic_param(uint8_t *file, img_data_t *img){
-	FILE *fd;
+int get_pic_param(FILE *fd, img_data_t *img){
+//	FILE *fd;
 	uint8_t buff[4];
-
+/*
 	fd = fopen(file, "r");
 	if(fd == NULL){
 		return CANT_OPEN_FILE;
 	}
-
+*/
 	//Проверяем является ли файл БМП файлом.
 	if(!((fgetc(fd) == 'B') && (fgetc(fd) == 'M'))){
 		return FILE_NOT_BMP_FORMAT;

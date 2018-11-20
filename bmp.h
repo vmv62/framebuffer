@@ -32,4 +32,4 @@ enum{
 };
 
 int get_int_value(uint8_t *buff);
-int get_pic_param(uint8_t *file, img_data_t *img);
+int get_pic_param(FILE *fd, img_data_t *img);
