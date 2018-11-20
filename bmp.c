@@ -71,9 +71,7 @@ int get_pic_param(FILE *fd, img_data_t *img){
 		img->pixel_offset = buff[0];//get_int_value(buff);
 	}
 
-
-	fclose(fd);
-	return 1;
+	return 0;
 }
 
 int get_int_value(uint8_t *buff){

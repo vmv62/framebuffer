@@ -47,8 +47,8 @@ int main()
         exit(4);
     }
 
-	printf("Show gauge\n");
-	send_to(100, 200, "Gauge.bmp", &vinfo, fbp);
+	send_to(950, 700, "plug.bmp", &vinfo, fbp);
+//	send_to(282, 154, "Gauge.bmp", &vinfo, fbp);
 
    munmap(fbp, screensize);
 	close(fbfd);
@@ -70,8 +70,8 @@ int send_to(uint32_t xcoord, uint32_t ycoord, uint8_t *file, struct fb_var_scree
 
 	get_pic_param(fd, img);
 
-	printf("height - %d\n", img->height);
-	printf("width - %d\n", img->width);
+//	printf("height - %d\n", img->height);
+//	printf("width - %d\n", img->width);
 
 	//Go to pixel field.
 	fseek(fd , img->pixel_offset, SEEK_SET);
