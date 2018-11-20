@@ -1,15 +1,3 @@
-
-/*
-To test that the Linux framebuffer is set up correctly, and that the device permissions
-are correct, use the program below which opens the frame buffer and draws a gradient-
-filled red square:
-
-retrieved from:
-Testing the Linux Framebuffer for Qtopia Core (qt4-x11-4.2.2)
-
-http://cep.xor.aps.anl.gov/software/qt4-x11-4.2.2/qtopiacore-testingframebuffer.html
-*/
-
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -36,7 +24,6 @@ int main()
         perror("Error: cannot open framebuffer device");
         exit(1);
     }
-    printf("The framebuffer device was opened successfully.\n");
 
     // Get fixed screen information
     if (ioctl(fbfd, FBIOGET_FSCREENINFO, &finfo) == -1) {
@@ -63,37 +50,49 @@ int main()
 	img_data_t *img;
 	img = (img_data_t *)malloc(sizeof(img_data_t));
 
-	get_pic_param("1024x768.bmp", img);
+	get_pic_param("Gauge.bmp", img);
 
-	if((img->width != vinfo.xres) || (img->height != vinfo.yres)){
-		return WRONG_RESOLUTION_OF_THE_PICTURE;
-	}
+	printf("Pict height: %d\n", img->height);
+	printf("Pict width: %d\n", img->width);
 
-	//open file for show in full screen mode
+//	if((img->width != vinfo.xres) || (img->height != vinfo.yres)){
+//		return WRONG_RESOLUTION_OF_THE_PICTURE;
+//	}
+
+	send_to(0, 0, "Gauge.bmp", img, &vinfo, fbp);
+
+   munmap(fbp, screensize);
+	free(img);
+	close(fbfd);
+   return 0;
+}
+
+int send_to(uint32_t xcoord, uint32_t ycoord, uint8_t *file, img_data_t *img, struct fb_var_screeninfo *vinfo, uint8_t *fbp){
 	FILE *fd;
 
-	fd = fopen("1024x768.bmp", "r");
+	fd = fopen(file, "r");
 
 	//Go to pixel field.
 	fseek(fd , img->pixel_offset, SEEK_SET);
 
-	uint8_t *cursor = fbp + (4 * vinfo.xres * vinfo.yres); //	bytes
+	//Находим положение последней строки файла в рамках экрана.
+	uint8_t *cursor = fbp + (4 * xcoord) + ((ycoord + img->height) * vinfo->xres * 4);	//В байтах
 	uint8_t *line_cursor;
-	for(uint32_t i = 0; i < vinfo.yres ; i++){		//pixel
-		cursor -= vinfo.xres * 4;							//bytesi
+	for(uint32_t i = 0; i < img->height ; i++){		//pixel
 		line_cursor = cursor;
-		for(uint32_t t = 0; t < vinfo.xres; t++){
+		for(uint32_t t = 0; t < img->width ; t++){
 			*(line_cursor) = fgetc(fd);
 			*(line_cursor + 1) = fgetc(fd);
 			*(line_cursor + 2) = fgetc(fd);
-			*(line_cursor + 3) = 0;
+			*(line_cursor + 3) = fgetc(fd);
 			line_cursor +=4;
 		}
+		cursor -= vinfo->xres * 4;							//bytesi
 	}
 
 
-   	munmap(fbp, screensize);
+//  	munmap(fbp, screensize);
 	fclose(fd);
-   	close(fbfd);
-   	return 0;
+  	return 0;
+
 }

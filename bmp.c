@@ -77,5 +77,5 @@ int get_pic_param(uint8_t *file, img_data_t *img){
 }
 
 int get_int_value(uint8_t *buff){
-	return buff[3] + (buff[2]<<8) + (buff[1]<<16) + (buff[0]<<24);
+	return buff[0] + (buff[1]<<8) + (buff[2]<<16) + (buff[3]<<24);
 }
