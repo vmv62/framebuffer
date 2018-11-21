@@ -47,8 +47,9 @@ int main()
         exit(4);
     }
 
+	
 	send_to(950, 700, "plug.bmp", &vinfo, fbp);
-//	send_to(282, 154, "Gauge.bmp", &vinfo, fbp);
+	send_to(490, 700, "plug.bmp", &vinfo, fbp);
 
    munmap(fbp, screensize);
 	close(fbfd);
