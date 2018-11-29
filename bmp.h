@@ -42,6 +42,5 @@ enum{
 	CANT_OPEN_FILE,
 };
 
-int get_int_value(uint8_t *buff);
-int get_pic_param(FILE *fd, img_data_t *img);
-int open_pict(FILE * fd, bmp_struct_t bmp);
+uint32_t get_int_value(FILE *fd, uint32_t offset, uint32_t size);
+uint32_t open_pict(uint8_t *file, bmp_struct_t *bmp);
