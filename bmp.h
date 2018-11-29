@@ -24,6 +24,17 @@ typedef struct{
 	uint8_t	*bit_field;
 }img_data_t;
 
+
+//-------------------------------------------------------------------
+typedef struct{
+	uint8_t 	bpp;
+	uint32_t width;
+	uint32_t height;
+	uint32_t bytes_field_size;
+	uint8_t 	*byte_field;
+}bmp_struct_t;
+
+
 //Ошибки при работе с картинкой
 enum{
 	FILE_NOT_BMP_FORMAT = 0x01,
@@ -33,3 +44,4 @@ enum{
 
 int get_int_value(uint8_t *buff);
 int get_pic_param(FILE *fd, img_data_t *img);
+int open_pict(FILE * fd, bmp_struct_t bmp);
