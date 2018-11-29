@@ -14,9 +14,6 @@ uint32_t main(uint32_t argc, uint8_t **argv){
 	fopen("pict/plug.bmp", "r");
 
 	printf("Width: %d\n", get_int_value(fd, OFFSET_SIZE, 4));
-//	printf("Height: %d\n", img->height);
-//  	printf("Bit per pixel: %d\n", img->bit_pp);
-//	printf("Bit field offset: %d\n", img->pixel_offset);
 
 	fclose(fd);
 	return 0;
