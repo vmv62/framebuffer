@@ -2,11 +2,7 @@
 #include <stdlib.h>
 #include "bmp.h"
 
-
-
-
-
-
+/*
 int main(int argc, char **argv){
 	bmp_struct_t *bmp;
 	bmp = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
@@ -18,6 +14,7 @@ int main(int argc, char **argv){
 	free(bmp);
 	return 0;
 }
+*/
 
 //read picture to memory
 uint32_t read_pict(uint8_t *file, bmp_struct_t *bmp){

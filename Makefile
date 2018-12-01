@@ -1,13 +1,13 @@
-FILES=to_screen.c bmp.c
+FILES=fbsh.c bmp.c
 
 all: $(FILES)
-	gcc $(FILES) -o to_screen
+	gcc -Wall -g $(FILES) -o to_screen
 
 commit:
 	git add --all && git commit -m "Auto commit" && git push -f
 
 edit:
-	nano $(FILES) && make && ./to_screen
+	nano $(FILES) && make && ./fbsh.c
 
 proba:
 	dat=date && echo '$dat'

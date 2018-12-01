@@ -10,23 +10,6 @@ typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
 
 typedef struct{
-	uint8_t type;
-	uint32_t size;
-	uint32_t reserved;
-	uint32_t jffset_bits;
-}bmp_header_t;
-
-typedef struct{
-	uint32_t width;
-	uint32_t height;
-	uint16_t bit_pp;
-	uint32_t pixel_offset;
-	uint8_t	*bit_field;
-}img_data_t;
-
-
-//-------------------------------------------------------------------
-typedef struct{
 	uint8_t 	bpp;
 	uint8_t	reserved1;
 	uint8_t	reserved2;
