@@ -4,6 +4,9 @@
 
 
 
+
+
+
 int main(int argc, char **argv){
 	bmp_struct_t *bmp;
 	bmp = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
