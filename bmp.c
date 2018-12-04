@@ -10,7 +10,7 @@ int main(int argc, char **argv){
 
 	read_pict(argv[1], bmp);
 
-//	while(1);;
+	while(1);;
 
 	free(bmp);
 	return 0;
@@ -37,7 +37,7 @@ uint32_t read_pict(uint8_t *file, bmp_struct_t *bmp){
 	//Копируем битовое поле в память.
 	fseek(fd, pixels_pointer, OFFSET_PIXEL_DATA);
 
-	fread(bmp->byte_field, 1, bmp->byte_field_size, fd);
+	fread(bmp->byte_field, 1, bmp->bytes_field_size, fd);
 
 
 	printf("%dx%d, %d bpp; pixel info size: %d, \t%d\n", bmp->width, bmp->height, bmp->bpp, bmp->bytes_field_size, pixels_pointer);
