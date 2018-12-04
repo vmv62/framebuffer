@@ -37,7 +37,7 @@ uint32_t read_pict(uint8_t *file, bmp_struct_t *bmp){
 	//Копируем битовое поле в память.
 	fseek(fd, pixels_pointer, OFFSET_PIXEL_DATA);
 
-	fread(bmp->byte_field, 1, bmp->bytes_field_size, fd);
+	printf("fread read: %d bytes\n", fread(bmp->byte_field, 1, bmp->bytes_field_size, fd));
 
 
 	printf("%dx%d, %d bpp; pixel info size: %d, \t%d\n", bmp->width, bmp->height, bmp->bpp, bmp->bytes_field_size, pixels_pointer);
