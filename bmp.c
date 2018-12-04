@@ -35,16 +35,10 @@ uint32_t read_pict(uint8_t *file, bmp_struct_t *bmp){
 	bmp->byte_field = (uint8_t *)malloc(bmp->bytes_field_size);
 
 	//Копируем битовое поле в память.
-	fseek(fd, pixels_pointer, SEEK_SET);
+	fseek(fd, pixels_pointer, OFFSET_PIXEL_DATA);
 
-	if(bmp->bpp == 32){
-		for(uint32_t i = bmp->height; i > 0; i-- ){
-			for(){
+	fread(bmp->byte_field, 1, bmp->byte_field_size, fd);
 
-			}
-		}
-
-	}
 
 	printf("%dx%d, %d bpp; pixel info size: %d, \t%d\n", bmp->width, bmp->height, bmp->bpp, bmp->bytes_field_size, pixels_pointer);
 
