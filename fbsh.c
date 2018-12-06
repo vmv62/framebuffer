@@ -72,7 +72,7 @@ int main()
 int send_to(uint32_t xcoord, uint32_t ycoord, bmp_struct_t *bmp, struct fb_var_screeninfo *vinfo, uint8_t *fbp){
 
 	//Находим положение последней строки файла в рамках экрана.
-	uint8_t *cursor = fbp + (4 * xcoord) + (ycoord * vinfo->xres * 4);	//В байтах
+	uint8_t *cursor = fbp + (4 * xcoord) + ((ycoord + bmp->height) * (vinfo->xres * 4));	//В байтах
 	uint8_t *byte_field_cur = bmp->byte_field;
 	uint8_t *line_cursor;
 
@@ -83,7 +83,7 @@ int send_to(uint32_t xcoord, uint32_t ycoord, bmp_struct_t *bmp, struct fb_var_s
 			byte_field_cur++;
 			line_cursor++;
 		}
-		cursor += vinfo->xres * 4;							//bytesi
+		cursor -= (vinfo->xres ) * 4;					//bytesi
 	}
 
   	return 0;

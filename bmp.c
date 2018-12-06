@@ -29,18 +29,19 @@ uint32_t read_pict(uint8_t *file, bmp_struct_t *bmp){
 	bmp->bpp = get_int_from_file(&fd, OFFSET_BITCOUNT, 4);
 	bmp->width = get_int_from_file(&fd, OFFSET_WIDTH, 4);
 	bmp->height = get_int_from_file(&fd, OFFSET_HEIGHT, 4);
-	bmp->bytes_field_size = get_int_from_file(&fd, OFFSET_SIZE, 4) - get_int_from_file(&fd, OFFSET_PIXEL_DATA, 4);;
+	bmp->bytes_field_size = get_int_from_file(&fd, OFFSET_SIZE, 4) - get_int_from_file(&fd, OFFSET_PIXEL_DATA, 4);
 	pixels_pointer = get_int_from_file(&fd, OFFSET_PIXEL_DATA, 4);
+
+	printf("SIZE = %d; OFFSEt = %d.\n", get_int_from_file(&fd, OFFSET_SIZE, 4), get_int_from_file(&fd, OFFSET_PIXEL_DATA, 4));
 
 	bmp->byte_field = (uint8_t *)malloc(bmp->bytes_field_size);
 
 	//Копируем битовое поле в память.
 	fseek(fd, pixels_pointer, OFFSET_PIXEL_DATA);
 
-	printf("fread read: %d bytes\n", fread(bmp->byte_field, 1, bmp->bytes_field_size, fd));
+	fread(bmp->byte_field, 1, bmp->bytes_field_size, fd);
 
-
-	printf("%dx%d, %d bpp; pixel info size: %d, \t%d\n", bmp->width, bmp->height, bmp->bpp, bmp->bytes_field_size, pixels_pointer);
+//	printf("%dx%d, %d bpp; pixel info size: %d, \t%d\n", bmp->width, bmp->height, bmp->bpp, bmp->bytes_field_size, pixels_pointer);
 
 	fclose(fd);
 
