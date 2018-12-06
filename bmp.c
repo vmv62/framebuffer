@@ -37,7 +37,7 @@ uint32_t read_pict(uint8_t *file, bmp_struct_t *bmp){
 	bmp->byte_field = (uint8_t *)malloc(bmp->bytes_field_size);
 
 	//Копируем битовое поле в память.
-	fseek(fd, pixels_pointer, OFFSET_PIXEL_DATA);
+	fseek(fd, pixels_pointer, SEEK_SET);
 
 	fread(bmp->byte_field, 1, bmp->bytes_field_size, fd);
 
