@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <string.h>
 #include <linux/fb.h>
 #include <sys/mman.h>
 #include <sys/ioctl.h>
@@ -47,6 +48,8 @@ int main()
         exit(4);
     }
 
+	memset(fbp, 0x0, screensize);
+
 	bmp_struct_t *bmp_1;
 	bmp_1 = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
 	read_pict("pict/plug.bmp", bmp_1);
@@ -54,12 +57,13 @@ int main()
 	bmp_struct_t *bmp_2;
 	bmp_2 = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
 	read_pict("pict/460x460.bmp", bmp_2);
+	memset(bmp_2->byte_field, 0x0, bmp_2->bytes_field_size);
 
 	while(1){
-		send_to(900, 200, bmp_1, &vinfo, fbp);
-		sleep(2);
+		send_to(900, 700, bmp_1, &vinfo, fbp);
+		sleep(1);
 		send_to(900, 700, bmp_2, &vinfo, fbp);
-		sleep(2);
+		sleep(1);
 	}
 
 	free(bmp_1);
@@ -88,3 +92,10 @@ int send_to(uint32_t xcoord, uint32_t ycoord, bmp_struct_t *bmp, struct fb_var_s
 
   	return 0;
 }
+
+/*
+int set_color(uint32_t color, bmp_struct_t *bmp, uint32_t xcoord, uint32_t y_coord, uint8_t *fbp){
+
+
+}
+*/
