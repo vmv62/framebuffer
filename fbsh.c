@@ -16,6 +16,10 @@ int main()
     struct fb_fix_screeninfo finfo;
     long int screensize = 0;
     char *fbp = 0;
+
+	if(fork()){
+		return 0;
+	}
 //    int x = 0, y = 0;
 //    long int location = 0;
 

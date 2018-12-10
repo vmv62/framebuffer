@@ -11,14 +11,15 @@ uint32_t main(uint32_t argc, uint8_t **argv){
 
 uint32_t read_conf(uint8_t *file, sconf_t *conf){
 	FILE *fd;
-	buff[BUFF_LEN];
+	char buff[BUFF_LEN];
 
 	if(NULL == (fd = fopen(file, "r"))){
-		printf("Error file open");
+		printf("Error file open\n");
 	}
 
-	fgets(buff, BUFF_LEN, fd);
-	printf("%s\n", buff);
+	while(NULL != fgets(buff, BUFF_LEN, fd)){
+		printf("%s\n", buff);
+	}
 
 	close(fd);
 	return 0;
