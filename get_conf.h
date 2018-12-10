@@ -22,3 +22,4 @@ typedef struct{
 sconf_t files[];
 
 uint32_t read_conf(uint8_t *file, sconf_t *conf);
+uint32_t parse_string(uint8_t *string, uint8_t *var, uint8_t *val);

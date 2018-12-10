@@ -24,3 +24,9 @@ uint32_t read_conf(uint8_t *file, sconf_t *conf){
 	close(fd);
 	return 0;
 }
+
+uint32_t parse_string(uint8_t *string, uint8_t *var, uint8_t *val){
+
+
+	return 0;
+}
