@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #define OFFSET_SIZE	0x02
 #define OFFSET_PIXEL_DATA 0xA
 #define OFFSET_WIDTH	0x12
@@ -5,9 +7,11 @@
 #define OFFSET_BITCOUNT	0x1C
 #define OFFSET_IMAGESIZE	34
 
+/*
 typedef char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
+*/
 
 typedef struct{
 	uint8_t 	bpp;
