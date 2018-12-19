@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "get_conf.h"
 #include "bmp.h"
 
@@ -6,7 +7,6 @@ int main(int argc, char **argv){
 	sconf_t *conf;
 
 	conf = (sconf_t *)malloc(sizeof(sconf_t));
-
 	read_conf(argv[1], conf);
 	return 0;
 }
