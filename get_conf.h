@@ -19,7 +19,7 @@ typedef struct{
 	uint32_t ycoord;
 }sconf_t;
 
-sconf_t files[];
+sconf_t files[20];
 
-uint32_t read_conf(uint8_t *file, sconf_t *conf);
+uint32_t read_conf(char *file, sconf_t *conf);
 uint32_t parse_string(uint8_t *string, uint8_t *var, uint8_t *val);

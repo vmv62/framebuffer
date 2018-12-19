@@ -2,14 +2,16 @@
 #include "get_conf.h"
 #include "bmp.h"
 
-uint32_t main(uint32_t argc, uint8_t **argv){
+int main(int argc, char **argv){
 	sconf_t *conf;
+
+	conf = (sconf_t *)malloc(sizeof(sconf_t));
 
 	read_conf(argv[1], conf);
 	return 0;
 }
 
-uint32_t read_conf(uint8_t *file, sconf_t *conf){
+uint32_t read_conf(char *file, sconf_t *conf){
 	FILE *fd;
 	char buff[BUFF_LEN];
 
@@ -21,7 +23,7 @@ uint32_t read_conf(uint8_t *file, sconf_t *conf){
 		printf("%s\n", buff);
 	}
 
-	close(fd);
+	fclose(fd);
 	return 0;
 }
 
