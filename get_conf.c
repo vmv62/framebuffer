@@ -19,16 +19,20 @@ uint32_t read_conf(char *file, sconf_t *conf){
 		printf("Error file open\n");
 	}
 
+	//Перебор строк файла с настройками и извлечение необходимой информации из нихщ
+
+	int i = 0;
 	while(NULL != fgets(buff, BUFF_LEN, fd)){
-		printf("%s\n", buff);
+		i++;
+		parse_string(buff, files[i]);
 	}
 
 	fclose(fd);
 	return 0;
 }
 
-uint32_t parse_string(uint8_t *string, uint8_t *var, uint8_t *val){
+uint32_t parse_string(char *string, sconf_t pict){
 
-
+	printf("%s\n", string);
 	return 0;
 }
