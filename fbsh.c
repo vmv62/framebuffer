@@ -56,17 +56,17 @@ int main()
 
 	bmp_struct_t *bmp_1;
 	bmp_1 = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
-	read_pict("pict/plug.bmp", bmp_1);
+	read_pict("pict/Red_pilot_light_1.bmp", bmp_1);
 
 	bmp_struct_t *bmp_2;
 	bmp_2 = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
-	read_pict("pict/460x460.bmp", bmp_2);
-	memset(bmp_2->byte_field, 0x0, bmp_2->bytes_field_size);
+	read_pict("pict/Yellow_pilot_light_1.bmp", bmp_2);
+//	memset(bmp_2->byte_field, 0x0, bmp_2->bytes_field_size);
 
 	while(1){
-		send_to(900, 700, bmp_1, &vinfo, fbp);
+		send_to(700, 500, bmp_1, &vinfo, fbp);
 		sleep(1);
-		send_to(900, 700, bmp_2, &vinfo, fbp);
+		send_to(700, 500, bmp_2, &vinfo, fbp);
 		sleep(1);
 	}
 
