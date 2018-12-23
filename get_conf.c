@@ -89,7 +89,9 @@ uint32_t is_a_object(char *string, sconf_t *pict){
 char *clear_string(char *in_string){
 	char buffer[200];
 
-	while()
+	while(){
+		
+	}
 
 }
 */
