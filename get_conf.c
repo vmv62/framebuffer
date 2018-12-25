@@ -35,11 +35,12 @@ uint32_t read_conf(char *file, sconf_t *conf, prg_dat_t *p_conf){
 		if(is_a_object(buff, conf)){
 			p_conf->obj_count++;
 		}else{
+			printf("%s", buff);
 			parse_string(buff, conf);
 		}
 
 	}
-	printf("obj_name - %s\n", conf->obj_name);
+//	printf("obj_name - %s\n", conf->obj_name);
 	fclose(fd);
 	return 0;
 }
@@ -49,7 +50,7 @@ uint32_t parse_string(char *string, sconf_t *pict){
 	char key[64], argument[64];
 
 	key_pos = clear_string(string);
-	printf("%s", key_pos);
+//	printf("%s", key_pos);
 	while(*key_pos){
 		if(*key_pos == '='){
 //			key_pos = string;
@@ -57,12 +58,8 @@ uint32_t parse_string(char *string, sconf_t *pict){
 		}
 		key_pos++;
 	}
-//	printf("%d", string - key_pos - 1);
 	memcpy(key, string, string - key_pos - 1);
-//	memcpy(argument, key_pos, strlen(string) - (key_pos - string));
 
-//	printf("Key: %s\n", key);
-//	printf("Argument: %s\n", argument);
 	return 0;
 }
 
@@ -116,6 +113,7 @@ char *clear_string(char *in_string){
 	b_ptr++;
 	*b_ptr = 0;
 	memcpy(in_string, buffer, char_cntr);
+	printf("%s\n", buffer);
 	return in_string;
 }
 
