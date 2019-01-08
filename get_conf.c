@@ -12,7 +12,7 @@ int main(int argc, char **argv){
 	p_conf = (prg_dat_t *)malloc(sizeof(prg_dat_t));
 	read_conf(argv[1], conf, p_conf);
 
-//	printf("Object count == %d\n", p_conf->obj_count);
+	printf("Object count == %d\n", p_conf->obj_count);
 
 	free(conf);
 	free(p_conf);
@@ -35,12 +35,11 @@ uint32_t read_conf(char *file, sconf_t *conf, prg_dat_t *p_conf){
 		if(is_a_object(buff, conf)){
 			p_conf->obj_count++;
 		}else{
-			printf("%s", buff);
+//			printf("%s", buff);
 			parse_string(buff, conf);
 		}
 
 	}
-//	printf("obj_name - %s\n", conf->obj_name);
 	fclose(fd);
 	return 0;
 }
@@ -49,26 +48,49 @@ uint32_t parse_string(char *string, sconf_t *pict){
 	char *key_pos, *cursor;
 	char key[64], argument[64];
 
-	key_pos = clear_string(string);
-//	printf("%s", key_pos);
-	while(*key_pos){
-		if(*key_pos == '='){
-//			key_pos = string;
-			break;
+	cursor = clear_string(string);
+//	printf("%s", cursor);
+	while(*cursor){
+		if(*cursor == '='){
+			key_pos = (++cursor);
 		}
-		key_pos++;
+		if(*cursor == '#'){
+			return 0;
+		}
+		cursor++;
 	}
-	memcpy(key, string, string - key_pos - 1);
+	memcpy(key, string, (key_pos - string - 1));
+	key[key_pos - string - 1] = 0;
+//	printf("%s\n", key);
+	if(!strcmp(key, "image_1")){
+		memcpy(argument, key_pos, cursor - key_pos);
+		argument[cursor - key_pos] = 0;
+		printf("%s", argument);
+	}
+
+	if(!strcmp(key, "image_2")){
+		memcpy(argument, key_pos, cursor - key_pos);
+		argument[cursor - key_pos] = 0;
+		printf("%s", argument);
+	}
+
+	if(!strcmp(key, "xcoord")){
+		pict->xcoord = atoi(key_pos);
+		printf("%d\n", pict->xcoord);
+	}
+
+	if(!strcmp(key, "ycoord")){
+		pict->ycoord = atoi(key_pos);
+		printf("%d\n", pict->ycoord);
+	}
 
 	return 0;
 }
 
-
+/*------------Готово работает------------*/
 //Счетчик объектов в конфигурационном файле.
 uint32_t is_a_object(char *string, sconf_t *pict){
-	char *open_brace = 0, *close_brace = 0,
-	*cursor = clear_string(string);
-
+	char *open_brace = 0, *close_brace = 0, *cursor = string;
 
 	while(*cursor != (0 | '\n')){
 		if(*cursor == '['){
@@ -92,7 +114,8 @@ uint32_t is_a_object(char *string, sconf_t *pict){
 	return 0;
 }
 
-//Чистит строку от пробелов.
+/*------------Готово работает------------*/
+//Чистит строку от пробелов и кавычек.
 char *clear_string(char *in_string){
 	char *in_ptr, *b_ptr;
 	char buffer[200];
@@ -101,7 +124,7 @@ char *clear_string(char *in_string){
 	in_ptr = in_string;
 	b_ptr = buffer;
 	while(*in_ptr){
-		if(*in_ptr != ' '){
+		if((*in_ptr != ' ') && (*in_ptr != '"')){
 			*b_ptr = *in_ptr;
 			b_ptr++;
 			in_ptr++;
@@ -110,10 +133,8 @@ char *clear_string(char *in_string){
 			in_ptr++;
 			}
 	}
-	b_ptr++;
-	*b_ptr = 0;
-	memcpy(in_string, buffer, char_cntr);
-	printf("%s\n", buffer);
+	*(b_ptr++) = 0;
+	memcpy(in_string, buffer, ++char_cntr);
 	return in_string;
 }
 
