@@ -5,22 +5,25 @@
 #include "bmp.h"
 
 int main(int argc, char **argv){
-	sconf_t *conf;
+//	sconf_t *conf;
 	prg_dat_t *p_conf;
 
-	conf = (sconf_t *)malloc(sizeof(sconf_t));
+//	conf = (sconf_t *)malloc(sizeof(sconf_t));
 	p_conf = (prg_dat_t *)malloc(sizeof(prg_dat_t));
-	read_conf(argv[1], conf, p_conf);
+	printf("%d\n", sizeof(prg_dat_t));
+//	read_conf(argv[1], conf, p_conf);
+	read_conf(argv[1], p_conf);
 
 //	printf("Object count == %d\n", p_conf->obj_count);
-	printf("Info about object 1: Name: %s, X coord: %d, Y coord: %d, File: %s\n", p_conf->object[0].obj_name, p_conf->object[0].xcoord, p_conf->object[0].ycoord);
+	printf("Info about object 1: Name: %s, X coord: %d, Y coord: %d, File: %s\n", &p_conf->object[0].obj_name, p_conf->object[0].xcoord, p_conf->object[0].ycoord);
 
-	free(conf);
+//	free(conf);
 	free(p_conf);
 	return 0;
 }
 
-uint32_t read_conf(char *file, sconf_t *conf, prg_dat_t *p_conf){
+//uint32_t read_conf(char *file, sconf_t *conf, prg_dat_t *p_conf){
+uint32_t read_conf(char *file, prg_dat_t *p_conf){
 	FILE *fd;
 	char buff[BUFF_LEN];
 
@@ -37,7 +40,7 @@ uint32_t read_conf(char *file, sconf_t *conf, prg_dat_t *p_conf){
 			p_conf->obj_count++;
 		}else{
 //			printf("%s", buff);
-			parse_string(buff, conf);
+			parse_string(buff, &p_conf->object[i]);
 		}
 
 	}
