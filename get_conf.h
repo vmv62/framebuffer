@@ -12,8 +12,8 @@ enum{
 };
 
 typedef struct{
-	uint8_t file_name_1[64];
-	uint8_t file_name_2[64];
+	char file_name_1[64];
+	char file_name_2[64];
 	uint8_t show_mode;
 	uint8_t reserved;
 	char obj_name[64];

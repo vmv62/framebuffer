@@ -10,12 +10,12 @@ int main(int argc, char **argv){
 
 //	conf = (sconf_t *)malloc(sizeof(sconf_t));
 	p_conf = (prg_dat_t *)malloc(sizeof(prg_dat_t));
-	printf("%d\n", sizeof(prg_dat_t));
+//	printf("%d\n", sizeof(prg_dat_t));
 //	read_conf(argv[1], conf, p_conf);
 	read_conf(argv[1], p_conf);
 
 //	printf("Object count == %d\n", p_conf->obj_count);
-	printf("Info about object 1: Name: %s, X coord: %d, Y coord: %d, File: %s\n", &p_conf->object[0].obj_name, p_conf->object[0].xcoord, p_conf->object[0].ycoord);
+	printf("Info about object 1: Name: %s, X coord: %d, Y coord: %d, File: \n", p_conf->object[0].file_name_1, &p_conf->object[0].xcoord, p_conf->object[0].ycoord);
 
 //	free(conf);
 	free(p_conf);
@@ -31,16 +31,15 @@ uint32_t read_conf(char *file, prg_dat_t *p_conf){
 		printf("Error file open\n");
 	}
 
-	//Перебор строк файла с настройками и извлечение необходимой информации из нихщ
-
+	//Перебор строк файла с настройками и извлечение необходимой информации из них.
 	int i = 0;
 	while(NULL != fgets(buff, BUFF_LEN, fd)){
 		i++;
-		if(is_a_object(buff, &p_conf->object[i])){
+		if(is_a_object(buff, &p_conf->object[p_conf->obj_count])){
 			p_conf->obj_count++;
 		}else{
 //			printf("%s", buff);
-			parse_string(buff, &p_conf->object[i]);
+			parse_string(buff, &p_conf->object[p_conf->obj_count]);
 		}
 
 	}
@@ -69,23 +68,24 @@ uint32_t parse_string(char *string, sconf_t *pict){
 	if(!strcmp(key, "image_1")){
 		memcpy(argument, key_pos, cursor - key_pos);
 		argument[cursor - key_pos] = 0;
-//		printf("%s", argument);
+		strcpy(pict->file_name_1, argument);
+		printf("%s", argument);
 	}
 
 	if(!strcmp(key, "image_2")){
 		memcpy(argument, key_pos, cursor - key_pos);
 		argument[cursor - key_pos] = 0;
-//		printf("%s", argument);
+		printf("%s", argument);
 	}
 
 	if(!strcmp(key, "xcoord")){
 		pict->xcoord = atoi(key_pos);
-//		printf("%d\n", pict->xcoord);
+		printf("%d\n", pict->xcoord);
 	}
 
 	if(!strcmp(key, "ycoord")){
 		pict->ycoord = atoi(key_pos);
-//		printf("%d\n", pict->ycoord);
+		printf("%d\n", pict->ycoord);
 	}
 
 	return 0;
