@@ -87,8 +87,11 @@ uint32_t parse_string(char *string, sconf_t *pict){
 	return 0;
 }
 
+
+
 /*------------Готово работает------------*/
-//Счетчик объектов в конфигурационном файле.
+//Определение началащ объектов в конфигурационном файле.
+
 uint32_t is_a_object(char *string, sconf_t *pict){
 	char *open_brace = 0, *close_brace = 0, *cursor = string;
 
