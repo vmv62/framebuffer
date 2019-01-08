@@ -32,7 +32,7 @@ uint32_t read_conf(char *file, sconf_t *conf, prg_dat_t *p_conf){
 	int i = 0;
 	while(NULL != fgets(buff, BUFF_LEN, fd)){
 		i++;
-		if(is_a_object(buff, conf)){
+		if(is_a_object(buff, &object[i])){
 			p_conf->obj_count++;
 		}else{
 //			printf("%s", buff);
@@ -90,7 +90,7 @@ uint32_t parse_string(char *string, sconf_t *pict){
 
 
 /*------------Готово работает------------*/
-//Определение началащ объектов в конфигурационном файле.
+//Определение начала объектов в конфигурационном файле.
 
 uint32_t is_a_object(char *string, sconf_t *pict){
 	char *open_brace = 0, *close_brace = 0, *cursor = string;

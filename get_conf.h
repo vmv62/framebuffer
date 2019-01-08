@@ -24,7 +24,7 @@ typedef struct{
 	uint32_t ycoord;
 }sconf_t;
 
-sconf_t files[20];
+sconf_t object[20];
 
 uint32_t read_conf(char *file, sconf_t *pict, prg_dat_t *p_conf);			//Читаем конфигурационный файл.
 uint32_t is_a_object(char *string, sconf_t *pict);							//Определяем заголовок объекта
