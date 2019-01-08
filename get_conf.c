@@ -12,7 +12,8 @@ int main(int argc, char **argv){
 	p_conf = (prg_dat_t *)malloc(sizeof(prg_dat_t));
 	read_conf(argv[1], conf, p_conf);
 
-	printf("Object count == %d\n", p_conf->obj_count);
+//	printf("Object count == %d\n", p_conf->obj_count);
+	printf("Info about object 1: Name: %s, X coord: %d, Y coord: %d, File: %s\n", p_conf->object[0].obj_name, p_conf->object[0].xcoord, p_conf->object[0].ycoord);
 
 	free(conf);
 	free(p_conf);
@@ -32,7 +33,7 @@ uint32_t read_conf(char *file, sconf_t *conf, prg_dat_t *p_conf){
 	int i = 0;
 	while(NULL != fgets(buff, BUFF_LEN, fd)){
 		i++;
-		if(is_a_object(buff, &object[i])){
+		if(is_a_object(buff, &p_conf->object[i])){
 			p_conf->obj_count++;
 		}else{
 //			printf("%s", buff);
@@ -65,23 +66,23 @@ uint32_t parse_string(char *string, sconf_t *pict){
 	if(!strcmp(key, "image_1")){
 		memcpy(argument, key_pos, cursor - key_pos);
 		argument[cursor - key_pos] = 0;
-		printf("%s", argument);
+//		printf("%s", argument);
 	}
 
 	if(!strcmp(key, "image_2")){
 		memcpy(argument, key_pos, cursor - key_pos);
 		argument[cursor - key_pos] = 0;
-		printf("%s", argument);
+//		printf("%s", argument);
 	}
 
 	if(!strcmp(key, "xcoord")){
 		pict->xcoord = atoi(key_pos);
-		printf("%d\n", pict->xcoord);
+//		printf("%d\n", pict->xcoord);
 	}
 
 	if(!strcmp(key, "ycoord")){
 		pict->ycoord = atoi(key_pos);
-		printf("%d\n", pict->ycoord);
+//		printf("%d\n", pict->ycoord);
 	}
 
 	return 0;

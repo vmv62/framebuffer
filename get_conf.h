@@ -2,9 +2,6 @@
 
 #define BUFF_LEN 200
 
-typedef struct{
-	int obj_count;
-}prg_dat_t;
 
 //Show modes
 enum{
@@ -24,7 +21,11 @@ typedef struct{
 	uint32_t ycoord;
 }sconf_t;
 
-sconf_t object[20];
+
+typedef struct{
+	int obj_count;
+	sconf_t object[20];
+}prg_dat_t;
 
 uint32_t read_conf(char *file, sconf_t *pict, prg_dat_t *p_conf);			//Читаем конфигурационный файл.
 uint32_t is_a_object(char *string, sconf_t *pict);							//Определяем заголовок объекта
