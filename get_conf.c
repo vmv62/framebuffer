@@ -12,10 +12,11 @@ int main(int argc, char **argv){
 	p_conf = (prg_dat_t *)malloc(sizeof(prg_dat_t));
 //	printf("%d\n", sizeof(prg_dat_t));
 //	read_conf(argv[1], conf, p_conf);
-	read_conf(argv[1], p_conf);
+//	read_conf(argv[1], p_conf);
+	read_conf("monitor.conf", p_conf);
 
 //	printf("Object count == %d\n", p_conf->obj_count);
-	printf("Info about object 1: Name: %s, X coord: %d, Y coord: %d, File: \n", p_conf->object[0].file_name_1, &p_conf->object[0].xcoord, p_conf->object[0].ycoord);
+//	printf("Info about object 1: Name: %s\n", p_conf->object[0]->file_name_1);
 
 //	free(conf);
 	free(p_conf);
@@ -31,15 +32,16 @@ uint32_t read_conf(char *file, prg_dat_t *p_conf){
 		printf("Error file open\n");
 	}
 
+//	printf("Read_conf before while\n");
 	//Перебор строк файла с настройками и извлечение необходимой информации из них.
-	int i = 0;
 	while(NULL != fgets(buff, BUFF_LEN, fd)){
-		i++;
-		if(is_a_object(buff, &p_conf->object[p_conf->obj_count])){
+		if(is_a_object(buff, p_conf)){
 			p_conf->obj_count++;
-		}else{
-//			printf("%s", buff);
-			parse_string(buff, &p_conf->object[p_conf->obj_count]);
+			printf("Increment obj count\n");
+		} else{
+			printf("Before string parse\n");
+			parse_string(buff, p_conf);
+			printf("Obj_cntr %d\n", p_conf->obj_count);
 		}
 
 	}
@@ -47,7 +49,7 @@ uint32_t read_conf(char *file, prg_dat_t *p_conf){
 	return 0;
 }
 
-uint32_t parse_string(char *string, sconf_t *pict){
+uint32_t parse_string(char *string, prg_dat_t *pict){
 	char *key_pos, *cursor;
 	char key[64], argument[64];
 
@@ -68,7 +70,8 @@ uint32_t parse_string(char *string, sconf_t *pict){
 	if(!strcmp(key, "image_1")){
 		memcpy(argument, key_pos, cursor - key_pos);
 		argument[cursor - key_pos] = 0;
-		strcpy(pict->file_name_1, argument);
+//		printf("%d\n", pict->obj_count);
+		strcpy(&pict->object[pict->obj_count]->file_name_1, argument);
 		printf("%s", argument);
 	}
 
@@ -79,13 +82,13 @@ uint32_t parse_string(char *string, sconf_t *pict){
 	}
 
 	if(!strcmp(key, "xcoord")){
-		pict->xcoord = atoi(key_pos);
-		printf("%d\n", pict->xcoord);
+		pict->object[pict->obj_count]->xcoord = atoi(key_pos);
+		printf("%d\n", pict->object[pict->obj_count]->xcoord);
 	}
 
 	if(!strcmp(key, "ycoord")){
-		pict->ycoord = atoi(key_pos);
-		printf("%d\n", pict->ycoord);
+		pict->object[pict->obj_count]->ycoord = atoi(key_pos);
+		printf("%d\n", pict->object[pict->obj_count]->ycoord);
 	}
 
 	return 0;
@@ -94,12 +97,12 @@ uint32_t parse_string(char *string, sconf_t *pict){
 
 
 /*------------Готово работает------------*/
-//Определение начала объектов в конфигурационном файле.
+//Определение начала объектов в конфигурационном файле и выделение память под данный объект.
 
-uint32_t is_a_object(char *string, sconf_t *pict){
+uint32_t is_a_object(char *string, prg_dat_t *pict){
 	char *open_brace = 0, *close_brace = 0, *cursor = string;
 
-	while(*cursor != (0 | '\n')){
+	while(*cursor != (0 || '\n')){
 		if(*cursor == '['){
 			open_brace = cursor;
 		}
@@ -113,10 +116,14 @@ uint32_t is_a_object(char *string, sconf_t *pict){
 		return 0;
 	}
 
+	//Если чередование квадратных скобок верное, считаем что это объект и выделяем для него место.
 	if(open_brace < close_brace){
-		memcpy(pict->obj_name, open_brace + 1, close_brace - string - 1);
+		//размещаем указатель в массив объектов.
+		pict->object[pict->obj_count] = (sconf_t *)malloc(sizeof(sconf_t));
+		memcpy(pict->object, open_brace + 1, close_brace - string - 1);
 		return close_brace - string - 1;
 	}
+
 
 	return 0;
 }
