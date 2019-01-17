@@ -63,13 +63,14 @@ uint32_t parse_string(char *string, oconf_t *pict){
 	key[key_pos - string] = 0;
 	strcpy(argument, key_pos+1);
 	printf("%s\n", key);
-	printf("%s\n", argument);
-//	printf("%s", string);
+	printf("%s", argument);
 	if(!strcmp(key, "image_1")){
-//		strcpy(pict->file_name, argument);
+//		printf("%s\n", "Copy string to struct");
+//		strcpy(pict->file_name_1, argument);
 //		argument[cursor - key_pos] = 0;
 //		printf("%d\n", pict->obj_count);
 //		strcpy(pict->file_name_1, argument);
+//		printf("%s\n", "Print value from struct");
 //		printf("%s", pict->file_name_1);
 	}
 /*
