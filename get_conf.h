@@ -1,7 +1,7 @@
 #include <stdint.h>
 
 #define BUFF_LEN 200
-#define OBJ_CNT 256
+#define OBJ_CNT 100
 
 
 //Show modes
@@ -19,15 +19,15 @@ typedef struct{
 	uint8_t show_mode;
 	uint32_t xcoord;
 	uint32_t ycoord;
-}sconf_t;
+}oconf_t;
 
 
 typedef struct{
 	int obj_count;
-	sconf_t *object[OBJ_CNT];
+	oconf_t *object[OBJ_CNT];
 }prg_dat_t;
 
 uint32_t read_conf(char *file, prg_dat_t *p_conf);			//Читаем конфигурационный файл.
 uint32_t is_a_object(char *string, prg_dat_t *pict);							//Определяем заголовок объекта
-uint32_t parse_string(char *string, prg_dat_t *pict);		//Парсим строку, Заполняя парасетры в структуре
+uint32_t parse_string(char *string, oconf_t *pict);		//Парсим строку, Заполняя парасетры в структуре
 char *clear_string(char *in_string);						//Чистим строку от ненужных символов.
