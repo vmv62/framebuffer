@@ -28,6 +28,6 @@ typedef struct{
 }prg_dat_t;
 
 uint32_t read_conf(char *file, prg_dat_t *p_conf);			//Читаем конфигурационный файл.
-uint32_t is_a_object(char *string, prg_dat_t *pict);							//Определяем заголовок объекта
+oconf_t *is_a_object(char *string);							//Определяем заголовок объекта
 uint32_t parse_string(char *string, oconf_t *pict);		//Парсим строку, Заполняя парасетры в структуре
 char *clear_string(char *in_string);						//Чистим строку от ненужных символов.

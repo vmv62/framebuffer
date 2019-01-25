@@ -13,7 +13,7 @@ int main(int argc, char **argv){
 
 	printf("%s\n", p_conf->object[0]->obj_name);
 	printf("%s\n", p_conf->object[1]->obj_name);
-//	printf("%d\n", p_conf->object[1]->xcoord);
+	printf("%d\n", p_conf->object[1]->xcoord);
 
 	for(int i = 0; i < p_conf->obj_count; i++){
 		free(p_conf->object[i]);
@@ -26,7 +26,7 @@ int main(int argc, char **argv){
 uint32_t read_conf(char *file, prg_dat_t *p_conf){
 	FILE *fd;
 	char buff[BUFF_LEN];
-	int obj_cnt = 0;
+//	int obj_cnt = 0;
 
 	if(NULL == (fd = fopen(file, "r"))){
 		printf("Error file open\n");
@@ -34,11 +34,11 @@ uint32_t read_conf(char *file, prg_dat_t *p_conf){
 
 	//Перебор строк файла с настройками и извлечение необходимой информации из них.
 	while(NULL != fgets(buff, BUFF_LEN, fd)){
-		if(is_a_object(buff, p_conf)){
-			p_conf->object[obj_cnt] = (oconf_t *)malloc(sizeof(oconf_t));
-			obj_cnt++;
+		if(p_conf->object[p_conf->obj_count] = is_a_object(buff)){
+//			p_conf->object[p_conf->obj_count] = (oconf_t *)malloc(sizeof(oconf_t));
+			p_conf->obj_count++;
 		}else{
-			parse_string(buff, p_conf->object[obj_cnt - 1]);
+			parse_string(buff, p_conf->object[p_conf->obj_count - 1]);
 		}
 
 	}
@@ -65,6 +65,7 @@ uint32_t parse_string(char *string, oconf_t *pict){
 	memcpy(key, string, (key_pos - string));
 	key[key_pos - string] = 0;
 	strcpy(argument, key_pos+1);
+/*
 	if(!strcmp(key, "image_1")){
 		strcpy(pict->file_name_1, argument);
 	}
@@ -80,7 +81,7 @@ uint32_t parse_string(char *string, oconf_t *pict){
 	if(!strcmp(key, "ycoord")){
 		pict->ycoord = atoi(argument);
 	}
-
+*/
 	return 0;
 }
 
@@ -89,8 +90,10 @@ uint32_t parse_string(char *string, oconf_t *pict){
 /*------------Готово работает------------*/
 //Определение начала объектов в конфигурационном файле и выделение память под данный объект.
 
-uint32_t is_a_object(char *string, prg_dat_t *pict){
+oconf_t *is_a_object(char *string){
 	char *open_brace = 0, *close_brace = 0, *cursor = string;
+	oconf_t *object;
+//	char bf[50];
 
 	while(*cursor != (0 || '\n')){
 		if(*cursor == '['){
@@ -109,10 +112,10 @@ uint32_t is_a_object(char *string, prg_dat_t *pict){
 	//Если чередование квадратных скобок верное, считаем что это объект и выделяем для него место.
 	if(open_brace < close_brace){
 		//размещаем указатель в массив объектов.
-		pict->object[pict->obj_count] = (oconf_t *)malloc(sizeof(oconf_t));
-		memcpy(pict->object[pict->obj_count]->obj_name, open_brace + 1, close_brace - string - 1);
-		pict->obj_count++;
-		return close_brace - string - 1;
+		object = (oconf_t *)malloc(sizeof(oconf_t));
+		memcpy(object->obj_name, open_brace + 1, close_brace - string - 1);
+		object->obj_name[close_brace - string - 1] = 0;
+		return object;
 	}
 
 
