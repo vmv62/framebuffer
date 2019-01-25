@@ -13,16 +13,22 @@ int main(int argc, char **argv){
 
 #ifdef OUTPUTS
 	outs(p_conf->object[0]->obj_name);
-	outs(p_conf->object[0]->file_name_1);
-	outs(p_conf->object[0]->file_name_2);
+//	outs(p_conf->object[0]->file_name_1);
+//	outs(p_conf->object[0]->file_name_2);
 	outd(p_conf->object[0]->xcoord);
 	outd(p_conf->object[0]->ycoord);
 
 	outs(p_conf->object[1]->obj_name);
-	outs(p_conf->object[1]->file_name_1);
-	outs(p_conf->object[1]->file_name_2);
+//	outs(p_conf->object[1]->file_name_1);
+//	outs(p_conf->object[1]->file_name_2);
 	outd(p_conf->object[1]->xcoord);
 	outd(p_conf->object[1]->ycoord);
+
+	outs(p_conf->object[2]->obj_name);
+//	outs(p_conf->object[2]->file_name_1);
+//	outs(p_conf->object[2]->file_name_2);
+	outd(p_conf->object[2]->xcoord);
+	outd(p_conf->object[2]->ycoord);
 #endif
 
 	for(int i = 0; i < p_conf->obj_count; i++){
@@ -36,7 +42,6 @@ int main(int argc, char **argv){
 uint32_t read_conf(char *file, prg_dat_t *p_conf){
 	FILE *fd;
 	char buff[BUFF_LEN];
-//	int obj_cnt = 0;
 
 	if(NULL == (fd = fopen(file, "r"))){
 		printf("Error file open\n");
@@ -44,7 +49,7 @@ uint32_t read_conf(char *file, prg_dat_t *p_conf){
 
 	//Перебор строк файла с настройками и извлечение необходимой информации из них.
 	while(NULL != fgets(buff, BUFF_LEN, fd)){
-		if(p_conf->object[p_conf->obj_count] = is_a_object(buff)){
+		if((p_conf->object[p_conf->obj_count] = is_a_object(buff))){
 			p_conf->obj_count++;
 		}else{
 			parse_string(buff, p_conf->object[p_conf->obj_count - 1]);
