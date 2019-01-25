@@ -1,8 +1,13 @@
 #include <stdint.h>
 
+//Определение макросов для упрощения вывода отладочной информации.
+#define outs(exp)	printf("%s\n", exp)
+#define outd(exp)	printf("%d\n", exp)
+
 #define BUFF_LEN 200
 #define OBJ_CNT 100
 
+#define OUTPUTS
 
 //Show modes
 enum{

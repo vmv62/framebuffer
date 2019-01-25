@@ -11,9 +11,19 @@ int main(int argc, char **argv){
 	p_conf = (prg_dat_t *)malloc(sizeof(prg_dat_t));
 	read_conf("monitor.conf", p_conf);
 
-	printf("%s\n", p_conf->object[0]->obj_name);
-	printf("%s\n", p_conf->object[1]->obj_name);
-	printf("%d\n", p_conf->object[1]->xcoord);
+#ifdef OUTPUTS
+	outs(p_conf->object[0]->obj_name);
+	outs(p_conf->object[0]->file_name_1);
+	outs(p_conf->object[0]->file_name_2);
+	outd(p_conf->object[0]->xcoord);
+	outd(p_conf->object[0]->ycoord);
+
+	outs(p_conf->object[1]->obj_name);
+	outs(p_conf->object[1]->file_name_1);
+	outs(p_conf->object[1]->file_name_2);
+	outd(p_conf->object[1]->xcoord);
+	outd(p_conf->object[1]->ycoord);
+#endif
 
 	for(int i = 0; i < p_conf->obj_count; i++){
 		free(p_conf->object[i]);
@@ -35,7 +45,6 @@ uint32_t read_conf(char *file, prg_dat_t *p_conf){
 	//Перебор строк файла с настройками и извлечение необходимой информации из них.
 	while(NULL != fgets(buff, BUFF_LEN, fd)){
 		if(p_conf->object[p_conf->obj_count] = is_a_object(buff)){
-//			p_conf->object[p_conf->obj_count] = (oconf_t *)malloc(sizeof(oconf_t));
 			p_conf->obj_count++;
 		}else{
 			parse_string(buff, p_conf->object[p_conf->obj_count - 1]);
@@ -61,11 +70,16 @@ uint32_t parse_string(char *string, oconf_t *pict){
 		cursor++;
 	}
 
-//	printf("%d\n", key_pos - string);
 	memcpy(key, string, (key_pos - string));
 	key[key_pos - string] = 0;
 	strcpy(argument, key_pos+1);
 /*
+#ifdef OUTPUTS
+	outs(key);
+	outs(argument);
+#endif
+*/
+
 	if(!strcmp(key, "image_1")){
 		strcpy(pict->file_name_1, argument);
 	}
@@ -81,7 +95,7 @@ uint32_t parse_string(char *string, oconf_t *pict){
 	if(!strcmp(key, "ycoord")){
 		pict->ycoord = atoi(argument);
 	}
-*/
+
 	return 0;
 }
 
@@ -132,7 +146,7 @@ char *clear_string(char *in_string){
 	in_ptr = in_string;
 	b_ptr = buffer;
 	while(*in_ptr){
-		if((*in_ptr != ' ') && (*in_ptr != '"')){
+		if((*in_ptr != ' ') && (*in_ptr != '"') && (*in_ptr != '\n')){
 			*b_ptr = *in_ptr;
 			b_ptr++;
 			in_ptr++;
