@@ -9,7 +9,7 @@ int main(int argc, char **argv){
 	prg_dat_t *p_conf;
 
 //	p_conf = (prg_dat_t *)malloc(sizeof(prg_dat_t));
-	read_conf("monitor.conf");
+	p_conf = read_conf("monitor.conf");
 
 #ifdef OUTPUTS
 	outs(p_conf->object[0]->obj_name);
@@ -133,7 +133,7 @@ oconf_t *is_a_object(char *string){
 	outs(string);
 #endif
 
-	while((*cursor) != (0 || '\n')){
+	while(*cursor != (0 || '\n')){
 		if((*cursor) == '['){
 			open_brace = cursor;
 

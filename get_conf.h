@@ -7,8 +7,8 @@
 #define BUFF_LEN 200
 #define OBJ_CNT 100
 
-//#define OUTPUTS
-#define DEBUG_STEPS
+#define OUTPUTS
+//#define DEBUG_STEPS
 
 //Show modes
 enum{
