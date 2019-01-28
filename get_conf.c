@@ -8,8 +8,8 @@ int main(int argc, char **argv){
 //	sconf_t *conf;
 	prg_dat_t *p_conf;
 
-	p_conf = (prg_dat_t *)malloc(sizeof(prg_dat_t));
-	read_conf("monitor.conf", p_conf);
+//	p_conf = (prg_dat_t *)malloc(sizeof(prg_dat_t));
+	read_conf("monitor.conf");
 
 #ifdef OUTPUTS
 	outs(p_conf->object[0]->obj_name);
@@ -30,25 +30,39 @@ int main(int argc, char **argv){
 	outd(p_conf->object[2]->xcoord);
 	outd(p_conf->object[2]->ycoord);
 #endif
-
+/*
 	for(int i = 0; i < p_conf->obj_count; i++){
 		free(p_conf->object[i]);
-	}
+	}*/
 	free(p_conf);
 	return 0;
 }
 
 //uint32_t read_conf(char *file, sconf_t *conf, prg_dat_t *p_conf){
-uint32_t read_conf(char *file, prg_dat_t *p_conf){
+prg_dat_t *read_conf(char *file){
 	FILE *fd;
 	char buff[BUFF_LEN];
+	prg_dat_t *p_conf;
+
+	p_conf = (prg_dat_t *)malloc(sizeof(prg_dat_t));
 
 	if(NULL == (fd = fopen(file, "r"))){
 		printf("Error file open\n");
 	}
+#ifdef DEBUG_STEPS
+		else{
+			outs("File opened");
+		}
+#endif
+
 
 	//Перебор строк файла с настройками и извлечение необходимой информации из них.
 	while(NULL != fgets(buff, BUFF_LEN, fd)){
+
+#ifdef DEBUG_STEPS
+		outs("Read string!\n");
+#endif
+
 		if((p_conf->object[p_conf->obj_count] = is_a_object(buff))){
 			p_conf->obj_count++;
 		}else{
@@ -57,7 +71,7 @@ uint32_t read_conf(char *file, prg_dat_t *p_conf){
 
 	}
 	fclose(fd);
-	return 0;
+	return p_conf;
 }
 
 uint32_t parse_string(char *string, oconf_t *pict){
@@ -78,12 +92,12 @@ uint32_t parse_string(char *string, oconf_t *pict){
 	memcpy(key, string, (key_pos - string));
 	key[key_pos - string] = 0;
 	strcpy(argument, key_pos+1);
-/*
-#ifdef OUTPUTS
+
+#ifdef DEBUG_STEPS
 	outs(key);
 	outs(argument);
 #endif
-*/
+
 
 	if(!strcmp(key, "image_1")){
 		strcpy(pict->file_name_1, argument);
@@ -114,12 +128,27 @@ oconf_t *is_a_object(char *string){
 	oconf_t *object;
 //	char bf[50];
 
-	while(*cursor != (0 || '\n')){
-		if(*cursor == '['){
+#ifdef DEBUG_STEPS
+	outs("Before while in is_a_jbject!\n");
+	outs(string);
+#endif
+
+	while((*cursor) != (0 || '\n')){
+		if((*cursor) == '['){
 			open_brace = cursor;
+
+#ifdef DEBUG_STEPS
+	outs("Find [!\n");
+#endif
+
 		}
 		if(*cursor == ']'){
 			close_brace = cursor;
+
+#ifdef DEBUG_STEPS
+	outs("Find ]!\n");
+#endif
+
 		}
 		cursor++;
 	}
@@ -131,6 +160,11 @@ oconf_t *is_a_object(char *string){
 	//Если чередование квадратных скобок верное, считаем что это объект и выделяем для него место.
 	if(open_brace < close_brace){
 		//размещаем указатель в массив объектов.
+
+#ifdef DEBUG_STEPS
+		outs("Find object!\n");
+#endif
+
 		object = (oconf_t *)malloc(sizeof(oconf_t));
 		memcpy(object->obj_name, open_brace + 1, close_brace - string - 1);
 		object->obj_name[close_brace - string - 1] = 0;

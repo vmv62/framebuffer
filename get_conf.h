@@ -7,7 +7,8 @@
 #define BUFF_LEN 200
 #define OBJ_CNT 100
 
-#define OUTPUTS
+//#define OUTPUTS
+#define DEBUG_STEPS
 
 //Show modes
 enum{
@@ -28,11 +29,11 @@ typedef struct{
 
 
 typedef struct{
-	int obj_count;
+	uint32_t obj_count;
 	oconf_t *object[OBJ_CNT];
 }prg_dat_t;
 
-uint32_t read_conf(char *file, prg_dat_t *p_conf);			//Читаем конфигурационный файл.
+prg_dat_t *read_conf(char *file);			//Читаем конфигурационный файл.
 oconf_t *is_a_object(char *string);							//Определяем заголовок объекта
 uint32_t parse_string(char *string, oconf_t *pict);		//Парсим строку, Заполняя парасетры в структуре
 char *clear_string(char *in_string);						//Чистим строку от ненужных символов.
