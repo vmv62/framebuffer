@@ -1,4 +1,4 @@
-FILES=fbsh.c bmp.c
+FILES=fbsh.c bmp.c get_conf.c
 
 all: $(FILES)
 	gcc -Wall -g $(FILES) -o to_screen

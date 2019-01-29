@@ -17,7 +17,7 @@ int main(int argc, char **argv){
 */
 
 //read picture to memory
-uint32_t read_pict(uint8_t *file, bmp_struct_t *bmp){
+bmp_struct_t *read_pict(uint8_t *file){
 	FILE *fd;
 	uint32_t pixels_pointer;
 

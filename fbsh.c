@@ -8,53 +8,63 @@
 #include <sys/ioctl.h>
 #include "bmp.h"
 #include "fbsh.h"
+#include "get_conf.h"
 
 int main()
 {
-    int fbfd = 0;
-    struct fb_var_screeninfo vinfo;
-    struct fb_fix_screeninfo finfo;
-    long int screensize = 0;
-    char *fbp = 0;
+	int fbfd = 0;
+	struct fb_var_screeninfo vinfo;
+	struct fb_fix_screeninfo finfo;
+	long int screensize = 0;
+	char *fbp = 0;
+	prg_dat_t *p_conf;
+
+	p_conf = read_conf("monitor.conf");
 
 	if(fork()){
 		return 0;
 	}
-//    int x = 0, y = 0;
-//    long int location = 0;
+
+
 
     // Open the file for reading and writing
-    fbfd = open("/dev/fb0", O_RDWR);
-    if (fbfd == -1) {
-        perror("Error: cannot open framebuffer device");
-        exit(1);
-    }
+	fbfd = open("/dev/fb0", O_RDWR);
+	if (fbfd == -1) {
+		perror("Error: cannot open framebuffer device");
+		exit(1);
+	}
 
-    // Get fixed screen information
-    if (ioctl(fbfd, FBIOGET_FSCREENINFO, &finfo) == -1) {
-        perror("Error reading fixed information");
-        exit(2);
-    }
+	// Get fixed screen information
+	if (ioctl(fbfd, FBIOGET_FSCREENINFO, &finfo) == -1) {
+		perror("Error reading fixed information");
+		exit(2);
+	}
 
-    // Get variable screen information
-    if (ioctl(fbfd, FBIOGET_VSCREENINFO, &vinfo) == -1) {
-        perror("Error reading variable information");
-        exit(3);
-    }
+	// Get variable screen information
+	if (ioctl(fbfd, FBIOGET_VSCREENINFO, &vinfo) == -1) {
+		perror("Error reading variable information");
+		exit(3);
+	}
 
     // Figure out the size of the screen in bytes
-    screensize = vinfo.xres * vinfo.yres * vinfo.bits_per_pixel / 8;
+	screensize = vinfo.xres * vinfo.yres * vinfo.bits_per_pixel / 8;
 
     // Map the device to memory
-    fbp = (char *)mmap(0, screensize, PROT_READ | PROT_WRITE, MAP_SHARED, fbfd, 0);
-    if ((int)fbp == -1) {
-        perror("Error: failed to map framebuffer device to memory");
-        exit(4);
-    }
+	fbp = (char *)mmap(0, screensize, PROT_READ | PROT_WRITE, MAP_SHARED, fbfd, 0);
+	if ((int)fbp == -1) {
+		perror("Error: failed to map framebuffer device to memory");
+		exit(4);
+	}
 
 	memset(fbp, 0x0, screensize);
 
-	bmp_struct_t *bmp_1;
+
+	bmp_struct_t *bmps[100];
+	for(uint32_t i = 0; i < p_conf->obj_count; i++){
+		bmps[i] = read_pict(p_conf->object[i]->file_name_1);
+	}
+
+/*
 	bmp_1 = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
 	read_pict("pict/Red_pilot_light_1.bmp", bmp_1);
 
@@ -62,7 +72,7 @@ int main()
 	bmp_2 = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
 	read_pict("pict/Yellow_pilot_light_1.bmp", bmp_2);
 //	memset(bmp_2->byte_field, 0x0, bmp_2->bytes_field_size);
-
+*/
 	while(1){
 		send_to(700, 500, bmp_1, &vinfo, fbp);
 		sleep(1);

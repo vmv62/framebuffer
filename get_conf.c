@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "get_conf.h"
-#include "bmp.h"
 
+/*
 int main(int argc, char **argv){
 //	sconf_t *conf;
 	prg_dat_t *p_conf;
@@ -30,15 +30,16 @@ int main(int argc, char **argv){
 	outd(p_conf->object[2]->xcoord);
 	outd(p_conf->object[2]->ycoord);
 #endif
-/*
+
 	for(int i = 0; i < p_conf->obj_count; i++){
 		free(p_conf->object[i]);
-	}*/
+	}
 	free(p_conf);
 	return 0;
 }
+*/
 
-//uint32_t read_conf(char *file, sconf_t *conf, prg_dat_t *p_conf){
+
 prg_dat_t *read_conf(char *file){
 	FILE *fd;
 	char buff[BUFF_LEN];
