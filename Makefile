@@ -11,3 +11,5 @@ edit:
 
 proba:
 	dat=date && echo '$dat'
+clean:
+	rm to_screen

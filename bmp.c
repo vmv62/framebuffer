@@ -20,11 +20,14 @@ int main(int argc, char **argv){
 bmp_struct_t *read_pict(uint8_t *file){
 	FILE *fd;
 	uint32_t pixels_pointer;
+	bmp_struct_t *bmp;
 
 	fd = fopen(file, "r");
 	if(fd == NULL){
 		printf("Error with file!\n");
 	}
+
+	bmp = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
 
 	bmp->bpp = get_int_from_file(&fd, OFFSET_BITCOUNT, 4);
 	bmp->width = get_int_from_file(&fd, OFFSET_WIDTH, 4);
@@ -42,7 +45,7 @@ bmp_struct_t *read_pict(uint8_t *file){
 
 	fclose(fd);
 
-	return 0;
+	return bmp;
 }
 
 //Полностью рабочая функция.

@@ -74,14 +74,14 @@ int main()
 //	memset(bmp_2->byte_field, 0x0, bmp_2->bytes_field_size);
 */
 	while(1){
-		send_to(700, 500, bmp_1, &vinfo, fbp);
+		send_to(700, 500, bmps[0], &vinfo, fbp);
 		sleep(1);
-		send_to(700, 500, bmp_2, &vinfo, fbp);
+		send_to(700, 500, bmps[1], &vinfo, fbp);
 		sleep(1);
 	}
 
-	free(bmp_1);
-	free(bmp_2);
+	free(bmps[1]);
+	free(bmps[2]);
    munmap(fbp, screensize);
 	close(fbfd);
    return 0;
