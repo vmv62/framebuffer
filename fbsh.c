@@ -25,6 +25,9 @@ int main()
 		return 0;
 	}
 
+#ifdef DEBUG
+		printf("%s\n", p_conf->object[0]->file_name_1);
+#endif
 
 
     // Open the file for reading and writing

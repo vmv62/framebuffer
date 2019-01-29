@@ -17,10 +17,14 @@ int main(int argc, char **argv){
 */
 
 //read picture to memory
-bmp_struct_t *read_pict(uint8_t *file){
+bmp_struct_t *read_pict(char *file){
 	FILE *fd;
 	uint32_t pixels_pointer;
 	bmp_struct_t *bmp;
+
+#ifdef DEBUG
+	printf("%s\n", file);
+#endif
 
 	fd = fopen(file, "r");
 	if(fd == NULL){

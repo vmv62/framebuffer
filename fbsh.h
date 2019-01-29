@@ -1,3 +1,6 @@
+#define DEBUG
+
+
 enum{
 	WRONG_RESOLUTION_OF_THE_PICTURE = 1,
 };

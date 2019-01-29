@@ -7,6 +7,8 @@
 #define OFFSET_BITCOUNT	0x1C
 #define OFFSET_IMAGESIZE	34
 
+#define DEBUG
+
 /*
 typedef char uint8_t;
 typedef unsigned short uint16_t;
@@ -33,4 +35,4 @@ enum{
 };
 
 uint32_t get_int_from_file(FILE **fd, uint32_t offset, uint32_t size);
-bmp_struct_t *read_pict(uint8_t *file);
+bmp_struct_t *read_pict(char *file);
