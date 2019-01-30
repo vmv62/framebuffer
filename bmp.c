@@ -29,6 +29,7 @@ bmp_struct_t *read_pict(char *file){
 	fd = fopen(file, "r");
 	if(fd == NULL){
 		printf("Error with file!\n");
+		exit(0);
 	}
 
 	bmp = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));

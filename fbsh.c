@@ -20,13 +20,13 @@ int main()
 	prg_dat_t *p_conf;
 
 	p_conf = read_conf("monitor.conf");
-
+/*
 	if(fork()){
 		return 0;
 	}
-
+*/
 #ifdef DEBUG
-		printf("%s\n", p_conf->object[0]->file_name_1);
+		printf("%s", p_conf->object[0]->file_name_1);
 #endif
 
 
@@ -63,9 +63,10 @@ int main()
 
 
 	bmp_struct_t *bmps[100];
-	for(uint32_t i = 0; i < p_conf->obj_count; i++){
-		bmps[i] = read_pict(p_conf->object[i]->file_name_1);
-	}
+	bmps[0] = read_pict(p_conf->object[0]->file_name_1);
+//	for(uint32_t i = 0; i < p_conf->obj_count - 1; i++){
+//		bmps[i] = read_pict(p_conf->object[i]->file_name_1);
+//	}
 
 /*
 	bmp_1 = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
@@ -79,7 +80,7 @@ int main()
 	while(1){
 		send_to(700, 500, bmps[0], &vinfo, fbp);
 		sleep(1);
-		send_to(700, 500, bmps[1], &vinfo, fbp);
+		send_to(700, 500, bmps[0], &vinfo, fbp);
 		sleep(1);
 	}
 
