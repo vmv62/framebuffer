@@ -25,8 +25,9 @@ int main()
 		return 0;
 	}
 */
-#ifdef DEBUG
+#ifdef DEBUG_FBC
 		printf("%s", p_conf->object[0]->file_name_1);
+		printf("%s", p_conf->object[1]->file_name_1);
 #endif
 
 
@@ -64,6 +65,9 @@ int main()
 
 	bmp_struct_t *bmps[100];
 	bmps[0] = read_pict(p_conf->object[0]->file_name_1);
+	bmps[1] = read_pict(p_conf->object[0]->file_name_2);
+	bmps[2] = read_pict(p_conf->object[1]->file_name_1);
+	bmps[3] = read_pict(p_conf->object[1]->file_name_2);
 //	for(uint32_t i = 0; i < p_conf->obj_count - 1; i++){
 //		bmps[i] = read_pict(p_conf->object[i]->file_name_1);
 //	}
@@ -78,14 +82,18 @@ int main()
 //	memset(bmp_2->byte_field, 0x0, bmp_2->bytes_field_size);
 */
 	while(1){
-		send_to(700, 500, bmps[0], &vinfo, fbp);
+		send_to(p_conf->object[0]->xcoord, p_conf->object[0]->ycoord, bmps[0], &vinfo, fbp);
+		send_to(p_conf->object[0]->xcoord, p_conf->object[0]->ycoord, bmps[2], &vinfo, fbp);
 		sleep(1);
-		send_to(700, 500, bmps[0], &vinfo, fbp);
+		send_to(p_conf->object[1]->xcoord, p_conf->object[1]->ycoord, bmps[1], &vinfo, fbp);
+		send_to(p_conf->object[1]->xcoord, p_conf->object[1]->ycoord, bmps[3], &vinfo, fbp);
 		sleep(1);
 	}
 
+	free(bmps[0]);
 	free(bmps[1]);
 	free(bmps[2]);
+	free(bmps[3]);
    munmap(fbp, screensize);
 	close(fbfd);
    return 0;

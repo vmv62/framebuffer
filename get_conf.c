@@ -50,19 +50,22 @@ prg_dat_t *read_conf(char *file){
 	if(NULL == (fd = fopen(file, "r"))){
 		printf("Error file open\n");
 	}
-#ifdef DEBUG_STEPS
+/*
+#ifdef DEBUG_GET_CONF
 		else{
 			outs("File opened");
 		}
 #endif
-
+*/
 
 	//Перебор строк файла с настройками и извлечение необходимой информации из них.
 	while(NULL != fgets(buff, BUFF_LEN, fd)){
 
-#ifdef DEBUG_STEPS
+/*
+#ifdef DEBUG_GET_CONF
 		outs("Read string!\n");
 #endif
+*/
 
 		if((p_conf->object[p_conf->obj_count] = is_a_object(buff))){
 			p_conf->obj_count++;
@@ -94,7 +97,7 @@ uint32_t parse_string(char *string, oconf_t *pict){
 	key[key_pos - string] = 0;
 	strcpy(argument, key_pos+1);
 
-#ifdef DEBUG_STEPS
+#ifdef DEBUG_GET_CONF
 	outs(key);
 	outs(argument);
 #endif
@@ -128,28 +131,28 @@ oconf_t *is_a_object(char *string){
 	char *open_brace = 0, *close_brace = 0, *cursor = string;
 	oconf_t *object;
 //	char bf[50];
-
-#ifdef DEBUG_STEPS
+/*
+#ifdef DEBUG_GET_CONF
 	outs("Before while in is_a_jbject!\n");
 	outs(string);
 #endif
-
+*/
 	while(*cursor != (0 || '\n')){
 		if((*cursor) == '['){
 			open_brace = cursor;
-
-#ifdef DEBUG_STEPS
+/*
+#ifdef DEBUG_GET_CONF
 	outs("Find [!\n");
 #endif
-
+*/
 		}
 		if(*cursor == ']'){
 			close_brace = cursor;
-
-#ifdef DEBUG_STEPS
+/*
+#ifdef DEBUG_GET_CONF
 	outs("Find ]!\n");
 #endif
-
+*/
 		}
 		cursor++;
 	}
@@ -161,11 +164,11 @@ oconf_t *is_a_object(char *string){
 	//Если чередование квадратных скобок верное, считаем что это объект и выделяем для него место.
 	if(open_brace < close_brace){
 		//размещаем указатель в массив объектов.
-
+/*
 #ifdef DEBUG_STEPS
 		outs("Find object!\n");
 #endif
-
+*/
 		object = (oconf_t *)malloc(sizeof(oconf_t));
 		memcpy(object->obj_name, open_brace + 1, close_brace - string - 1);
 		object->obj_name[close_brace - string - 1] = 0;

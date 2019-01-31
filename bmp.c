@@ -22,7 +22,7 @@ bmp_struct_t *read_pict(char *file){
 	uint32_t pixels_pointer;
 	bmp_struct_t *bmp;
 
-#ifdef DEBUG
+#ifdef DEBUG_BMP
 	printf("%s\n", file);
 #endif
 

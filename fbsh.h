@@ -1,4 +1,5 @@
-#define DEBUG
+#include "debug.h"
+//#define DEBUG
 
 
 enum{

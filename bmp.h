@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "debug.h"
 
 #define OFFSET_SIZE	0x02
 #define OFFSET_PIXEL_DATA 0xA
@@ -7,7 +8,7 @@
 #define OFFSET_BITCOUNT	0x1C
 #define OFFSET_IMAGESIZE	34
 
-#define DEBUG
+//#define DEBUG
 
 /*
 typedef char uint8_t;

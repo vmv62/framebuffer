@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "debug.h"
 
 //Определение макросов для упрощения вывода отладочной информации.
 #define outs(exp)	printf("%s\n", exp)
@@ -7,7 +8,7 @@
 #define BUFF_LEN 200
 #define OBJ_CNT 100
 
-#define OUTPUTS
+//#define OUTPUTS
 //#define DEBUG_STEPS
 
 //Show modes
