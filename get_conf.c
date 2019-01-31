@@ -69,6 +69,7 @@ prg_dat_t *read_conf(char *file){
 
 		if((p_conf->object[p_conf->obj_count] = is_a_object(buff))){
 			p_conf->obj_count++;
+			p_conf->object[p_conf->obj_count - 1]->params = 0;
 		}else{
 			parse_string(buff, p_conf->object[p_conf->obj_count - 1]);
 		}
@@ -105,18 +106,22 @@ uint32_t parse_string(char *string, oconf_t *pict){
 
 	if(!strcmp(key, "image_1")){
 		strcpy(pict->file_name_1, argument);
+		pict->params |= IMAGE_1;
 	}
 
 	if(!strcmp(key, "image_2")){
 		strcpy(pict->file_name_2, argument);
+		pict->params |= IMAGE_2;
 	}
 
 	if(!strcmp(key, "xcoord")){
 		pict->xcoord = atoi(argument);
+		pict->params |= XCOORD;
 	}
 
 	if(!strcmp(key, "ycoord")){
 		pict->ycoord = atoi(argument);
+		pict->params |= YCOORD;
 	}
 
 	return 0;

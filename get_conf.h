@@ -8,6 +8,11 @@
 #define BUFF_LEN 200
 #define OBJ_CNT 100
 
+#define IMAGE_1	0x01
+#define IMAGE_2	0x02
+#define XCOORD		0x04
+#define YCOORD		0x08
+
 //#define OUTPUTS
 //#define DEBUG_STEPS
 
@@ -20,6 +25,7 @@ enum{
 };
 
 typedef struct{
+	uint32_t params;
 	char obj_name[64];
 	char file_name_1[64];
 	char file_name_2[64];

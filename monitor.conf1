@@ -1,4 +1,15 @@
-
+#[Plug]
+#image_1 = "pict/Blue_pilot_light_1.bmp"
+#image_2 = "pict/Red_pilot_light_1.bmp"
+#xcoord = 800
+#ycoord = 500
+#
+#Освещение
+#[Lighting]
+#image_1 = "pict/Blue_pilot_light_1.bmp"
+#image_2 = "pict/Green_pilot_light_1.bmp"
+#xcoord = 100
+#ycoord = 100
 [Properties]
 image_1 = "pict/prop.bmp"
 #image_2 = "pict/light_off.bmp"

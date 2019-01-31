@@ -64,28 +64,43 @@ int main()
 
 
 	bmp_struct_t *bmps[100];
-	bmps[0] = read_pict(p_conf->object[0]->file_name_1);
+	uint32_t bmps_cnt = 0;
+/*	bmps[0] = read_pict(p_conf->object[0]->file_name_1);
 	bmps[1] = read_pict(p_conf->object[0]->file_name_2);
 	bmps[2] = read_pict(p_conf->object[1]->file_name_1);
 	bmps[3] = read_pict(p_conf->object[1]->file_name_2);
 	bmps[4] = read_pict(p_conf->object[2]->file_name_1);
 	bmps[5] = read_pict(p_conf->object[3]->file_name_1);
-//	for(uint32_t i = 0; i < p_conf->obj_count - 1; i++){
-//		bmps[i] = read_pict(p_conf->object[i]->file_name_1);
-//	}
+	bmps[6] = read_pict(p_conf->object[4]->file_name_1);
+*/
+
+	for(uint32_t i =0; i < p_conf->obj_count; i++){
+		if(p_conf->object[i]->params & IMAGE_1){
+			bmps[bmps_cnt] = read_pict(p_conf->object[i]->file_name_1);
+			bmps_cnt++;
+		}
+		if(p_conf->object[i]->params & IMAGE_2){
+			bmps[bmps_cnt] = read_pict(p_conf->object[i]->file_name_2);
+			bmps_cnt++;
+		}
+	}
+
+#ifdef DEBUG_FBC
+		printf("Count of pictures: %d\n", bmps_cnt);
+		printf("Count of objects: %d\n", p_conf->obj_count);
+#endif
+//	memset(bmp_2->byte_field, 0x0, bmp_2->bytes_field_size);
+/*
+	for(uint32_t i=0; i < bmps_cnt; i++){
+		send_to(p_conf->object[i]->xcoord, p_conf->object[i]->ycoord, bmps[i], &vinfo, fbp);
+	}
+*/
+
+	send_to(p_conf->object[0]->xcoord, p_conf->object[0]->ycoord, bmps[0], &vinfo, fbp);
+	send_to(p_conf->object[1]->xcoord, p_conf->object[1]->ycoord, bmps[1], &vinfo, fbp);
+	send_to(p_conf->object[2]->xcoord, p_conf->object[2]->ycoord, bmps[2], &vinfo, fbp);
 
 /*
-	bmp_1 = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
-	read_pict("pict/Red_pilot_light_1.bmp", bmp_1);
-
-	bmp_struct_t *bmp_2;
-	bmp_2 = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
-	read_pict("pict/Yellow_pilot_light_1.bmp", bmp_2);
-//	memset(bmp_2->byte_field, 0x0, bmp_2->bytes_field_size);
-*/
-	send_to(p_conf->object[2]->xcoord, p_conf->object[2]->ycoord, bmps[4], &vinfo, fbp);
-	send_to(p_conf->object[3]->xcoord, p_conf->object[3]->ycoord, bmps[5], &vinfo, fbp);
-
 	while(1){
 		send_to(p_conf->object[0]->xcoord, p_conf->object[0]->ycoord, bmps[0], &vinfo, fbp);
 		send_to(p_conf->object[1]->xcoord, p_conf->object[1]->ycoord, bmps[2], &vinfo, fbp);
@@ -94,12 +109,18 @@ int main()
 		send_to(p_conf->object[1]->xcoord, p_conf->object[1]->ycoord, bmps[3], &vinfo, fbp);
 		sleep(1);
 	}
+*/
 
+	for(uint32_t i=0; i < bmps_cnt; i++){
+		free(bmps[i]);
+	}
+/*
 	free(bmps[0]);
 	free(bmps[1]);
 	free(bmps[2]);
 	free(bmps[3]);
-   munmap(fbp, screensize);
+  */
+	munmap(fbp, screensize);
 	close(fbfd);
    return 0;
 }
