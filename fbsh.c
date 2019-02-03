@@ -54,9 +54,6 @@ screen_t *init_screen(char *device){
 	scr->screen_bpp = vinfo.bits_per_pixel;
 	scr->fbp = fbp;
 
-	//Очистка экрана.
-	memset(fbp, 0x0, screensize);
-
 /*
 	bmp_struct_t *bmps[100];
 	uint32_t bmps_cnt = 0;
