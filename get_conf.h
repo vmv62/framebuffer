@@ -9,7 +9,6 @@
 */
 
 #include <stdint.h>
-#include "bmp.h"
 #include "debug.h"
 
 //Определение макросов для упрощения вывода отладочной информации.
@@ -23,36 +22,31 @@
 #define IMAGE_2	0x02
 #define XCOORD		0x04
 #define YCOORD		0x08
+#define OBJECT_BITMAP_COUNT	10
 
 //#define OUTPUTS
 //#define DEBUG_STEPS
 
-//Show modes
-enum{
-	BLINK = 1,
-	STATIC,
-	REG_STATE,
-	SHOW_ONCE,
-};
-
+//Структура объекта.
 typedef struct{
-	uint32_t params;
 	char obj_name[64];
-	char file_name_1[64];
-	char file_name_2[64];
-	uint8_t show_mode;
+	uint32_t params;
+	uint32_t	reg;
 	uint32_t xcoord;
 	uint32_t ycoord;
-	bmp_struct_t *bmp;
+	uint8_t ob_bmp_num;
+	uint8_t off_bmp_num;
+	uint8_t bmp_cnt;
+//	bmp_struct_t *bmp[OBJECT_BITMAP_COUNT];
 }object_t;
 
 
 typedef struct{
 	uint32_t obj_count;
 	object_t *object[OBJ_CNT];
-}prg_dat_t;
+}resurses_t;
 
-prg_dat_t *read_conf(char *file);			//Читаем конфигурационный файл.
+resurses_t *read_conf(char *file);			//Читаем конфигурационный файл.
 object_t *is_a_object(char *string);							//Определяем заголовок объекта
-uint32_t parse_string(char *string, object_t *pict);		//Парсим строку, Заполняя парасетры в структуре
+uint32_t parse_string(char *string, object_t *obj);		//Парсим строку, Заполняя парасетры в структуре
 char *clear_string(char *in_string);						//Чистим строку от ненужных символов.

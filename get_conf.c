@@ -1,51 +1,24 @@
+/*
+Описание файла.
+	Функция prg_dat_t *read_conf(char *file) принимает строку с адресом конфигурационного файла.
+	Читает строки, выбирает параметры объектов, и заполняет структуры этих объектов.
+	Создает массив указателей на структуры объектов и счетчик этих объектов.
+	Каждый объект может содержать до OBJECT_BITMAP_COUNT изображений
+
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "bmp.h"
 #include "get_conf.h"
 
-/*
-int main(int argc, char **argv){
-//	sconf_t *conf;
-	prg_dat_t *p_conf;
 
-//	p_conf = (prg_dat_t *)malloc(sizeof(prg_dat_t));
-	p_conf = read_conf("monitor.conf");
-
-#ifdef OUTPUTS
-	outs(p_conf->object[0]->obj_name);
-//	outs(p_conf->object[0]->file_name_1);
-//	outs(p_conf->object[0]->file_name_2);
-	outd(p_conf->object[0]->xcoord);
-	outd(p_conf->object[0]->ycoord);
-
-	outs(p_conf->object[1]->obj_name);
-//	outs(p_conf->object[1]->file_name_1);
-//	outs(p_conf->object[1]->file_name_2);
-	outd(p_conf->object[1]->xcoord);
-	outd(p_conf->object[1]->ycoord);
-
-	outs(p_conf->object[2]->obj_name);
-//	outs(p_conf->object[2]->file_name_1);
-//	outs(p_conf->object[2]->file_name_2);
-	outd(p_conf->object[2]->xcoord);
-	outd(p_conf->object[2]->ycoord);
-#endif
-
-	for(int i = 0; i < p_conf->obj_count; i++){
-		free(p_conf->object[i]);
-	}
-	free(p_conf);
-	return 0;
-}
-*/
-
-
-prg_dat_t *read_conf(char *file){
+resurses_t *read_conf(char *file){
 	FILE *fd;
 	char buff[BUFF_LEN];
-	prg_dat_t *p_conf;
+	resurses_t *res;
 
-	p_conf = (prg_dat_t *)malloc(sizeof(prg_dat_t));
+	res = (resurses_t *)malloc(sizeof(resurses_t));
 
 	if(NULL == (fd = fopen(file, "r"))){
 		printf("Error file open\n");
@@ -67,18 +40,18 @@ prg_dat_t *read_conf(char *file){
 #endif
 */
 
-		if((p_conf->object[p_conf->obj_count] = is_a_object(buff))){
-			p_conf->obj_count++;
-			p_conf->object[p_conf->obj_count - 1]->params = 0;
+		if((res->object[res->obj_count] = is_a_object(buff))){
+			res->obj_count++;
+			res->object[res->obj_count - 1]->params = 0;
 		}else{
-			parse_string(buff, p_conf->object[p_conf->obj_count - 1]);
+			parse_string(buff, res->object[res->obj_count - 1]);
 		}
 	}
 	fclose(fd);
-	return p_conf;
+	return res;
 }
 
-uint32_t parse_string(char *string, object_t *pict){
+uint32_t parse_string(char *string, object_t *obj){
 	char *key_pos, *cursor;
 	char key[64], argument[64];
 
@@ -103,24 +76,29 @@ uint32_t parse_string(char *string, object_t *pict){
 #endif
 
 
-	if(!strcmp(key, "image_1")){
-		strcpy(pict->file_name_1, argument);
-		pict->params |= IMAGE_1;
+	if(!strcmp(key, "on_bitmap")){
+//		obj->bmp[1] = read_pict(argument);
+		obj->params |= IMAGE_1;
 	}
 
-	if(!strcmp(key, "image_2")){
-		strcpy(pict->file_name_2, argument);
-		pict->params |= IMAGE_2;
+	if(!strcmp(key, "off_bitmap")){
+//		obj->bmp[0] = read_pict(argument);
+		obj->params |= IMAGE_2;
 	}
 
 	if(!strcmp(key, "xcoord")){
-		pict->xcoord = atoi(argument);
-		pict->params |= XCOORD;
+		obj->xcoord = atoi(argument);
+		obj->params |= XCOORD;
 	}
 
 	if(!strcmp(key, "ycoord")){
-		pict->ycoord = atoi(argument);
-		pict->params |= YCOORD;
+		obj->ycoord = atoi(argument);
+		obj->params |= YCOORD;
+	}
+
+	if(!strcmp(key, "register")){
+		obj->reg = atoi(argument);
+		obj->params |= YCOORD;
 	}
 
 	return 0;
