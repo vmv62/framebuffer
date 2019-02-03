@@ -22,6 +22,7 @@ resurses_t *read_conf(char *file){
 
 	if(NULL == (fd = fopen(file, "r"))){
 		printf("Error file open\n");
+		exit(0);
 	}
 /*
 #ifdef DEBUG_GET_CONF
