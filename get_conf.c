@@ -73,13 +73,12 @@ prg_dat_t *read_conf(char *file){
 		}else{
 			parse_string(buff, p_conf->object[p_conf->obj_count - 1]);
 		}
-
 	}
 	fclose(fd);
 	return p_conf;
 }
 
-uint32_t parse_string(char *string, oconf_t *pict){
+uint32_t parse_string(char *string, object_t *pict){
 	char *key_pos, *cursor;
 	char key[64], argument[64];
 
@@ -132,9 +131,9 @@ uint32_t parse_string(char *string, oconf_t *pict){
 /*------------Готово работает------------*/
 //Определение начала объектов в конфигурационном файле и выделение память под данный объект.
 
-oconf_t *is_a_object(char *string){
+object_t *is_a_object(char *string){
 	char *open_brace = 0, *close_brace = 0, *cursor = string;
-	oconf_t *object;
+	object_t *object;
 //	char bf[50];
 /*
 #ifdef DEBUG_GET_CONF
@@ -169,12 +168,12 @@ oconf_t *is_a_object(char *string){
 	//Если чередование квадратных скобок верное, считаем что это объект и выделяем для него место.
 	if(open_brace < close_brace){
 		//размещаем указатель в массив объектов.
-/*
+
 #ifdef DEBUG_STEPS
 		outs("Find object!\n");
 #endif
-*/
-		object = (oconf_t *)malloc(sizeof(oconf_t));
+
+		object = (object_t *)malloc(sizeof(object_t));
 		memcpy(object->obj_name, open_brace + 1, close_brace - string - 1);
 		object->obj_name[close_brace - string - 1] = 0;
 		return object;

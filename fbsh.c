@@ -90,16 +90,16 @@ int main()
 		printf("Count of objects: %d\n", p_conf->obj_count);
 #endif
 //	memset(bmp_2->byte_field, 0x0, bmp_2->bytes_field_size);
-/*
+
 	for(uint32_t i=0; i < bmps_cnt; i++){
 		send_to(p_conf->object[i]->xcoord, p_conf->object[i]->ycoord, bmps[i], &vinfo, fbp);
 	}
-*/
 
+/*
 	send_to(p_conf->object[0]->xcoord, p_conf->object[0]->ycoord, bmps[0], &vinfo, fbp);
 	send_to(p_conf->object[1]->xcoord, p_conf->object[1]->ycoord, bmps[1], &vinfo, fbp);
 	send_to(p_conf->object[2]->xcoord, p_conf->object[2]->ycoord, bmps[2], &vinfo, fbp);
-
+*/
 /*
 	while(1){
 		send_to(p_conf->object[0]->xcoord, p_conf->object[0]->ycoord, bmps[0], &vinfo, fbp);
