@@ -12,7 +12,14 @@ int main(int argc, char **argv){
 
 	res = read_conf("monitor.conf");
 	scr = init_screen("/dev/fb0");
+/*
+	printf("Programm find %d objects!\n", res->obj_count);
 
+	if(3 > atoi(argv[1])){
+		printf("Programm find %d objects!\n", res->obj_count);
+		return 0;
+	}
+*/
 	obj_zero = res->object[atoi(argv[1])];
 
 #ifdef DEBUG_MAIN

@@ -42,9 +42,20 @@ resurses_t *read_conf(char *file){
 */
 
 		if((res->object[res->obj_count] = is_a_object(buff))){
+
+#ifdef DEBUG_GET_CONF
+		outs("Object!\n");
+#endif
+
 			res->obj_count++;
 			res->object[res->obj_count - 1]->params = 0;
 		}else{
+
+#ifdef DEBUG_GET_CONF
+		outs("Parse string!\n");
+		outs(buff);
+#endif
+
 			parse_string(buff, res->object[res->obj_count - 1]);
 		}
 	}
@@ -56,14 +67,40 @@ uint32_t parse_string(char *string, object_t *obj){
 	char *key_pos, *cursor;
 	char key[64], argument[64];
 
+	int str_len;
+	if(2 > (str_len = strlen(string))){
+
+#ifdef DEBUG_GET_CONF
+		outs("String len less then 2!\n");
+#endif
+
+		return 0;
+	}
+
 	cursor = clear_string(string);
 	while(*cursor){
 		if(*cursor == '='){
+
+#ifdef DEBUG_GET_CONF
+		outs("Sine \"=\"!\n");
+#endif
+
 			key_pos = cursor;
 		}
 		if(*cursor == '#'){
 			return 0;
+
+#ifdef DEBUG_GET_CONF
+		outs("Comment!\n");
+#endif
+
 		}
+
+#ifdef DEBUG_GET_CONF
+		outd(cursor - string);
+#endif
+
+
 		cursor++;
 	}
 
@@ -123,19 +160,19 @@ object_t *is_a_object(char *string){
 	while(*cursor != (0 || '\n')){
 		if((*cursor) == '['){
 			open_brace = cursor;
-/*
+
 #ifdef DEBUG_GET_CONF
 	outs("Find [!\n");
 #endif
-*/
+
 		}
 		if(*cursor == ']'){
 			close_brace = cursor;
-/*
+			break;
 #ifdef DEBUG_GET_CONF
 	outs("Find ]!\n");
 #endif
-*/
+
 		}
 		cursor++;
 	}
