@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <fcntl.h>
 #include <string.h>
 #include <linux/fb.h>
 #include <sys/mman.h>
 #include <sys/ioctl.h>
-#include "bmp.h"
 #include "fbsh.h"
 
 screen_t *init_screen(char *device){
@@ -120,7 +120,7 @@ screen_t *init_screen(char *device){
 //	close(fbfd);
    return scr;
 }
-
+/*
 int send_to(uint32_t xcoord, uint32_t ycoord, bmp_struct_t *bmp, struct fb_var_screeninfo *vinfo, uint8_t *fbp){
 
 	//Находим положение последней строки файла в рамках экрана.
@@ -140,7 +140,7 @@ int send_to(uint32_t xcoord, uint32_t ycoord, bmp_struct_t *bmp, struct fb_var_s
 
   	return 0;
 }
-
+*/
 /*
 int set_color(uint32_t color, bmp_struct_t *bmp, uint32_t xcoord, uint32_t y_coord, uint8_t *fbp){
 

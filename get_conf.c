@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "bmp.h"
 #include "get_conf.h"
 
 
@@ -24,37 +23,15 @@ resurses_t *read_conf(char *file){
 		printf("Error file open\n");
 		exit(0);
 	}
-/*
-#ifdef DEBUG_GET_CONF
-		else{
-			outs("File opened");
-		}
-#endif
-*/
 
 	//Перебор строк файла с настройками и извлечение необходимой информации из них.
 	while(NULL != fgets(buff, BUFF_LEN, fd)){
 
-/*
-#ifdef DEBUG_GET_CONF
-		outs("Read string!\n");
-#endif
-*/
 
 		if((res->object[res->obj_count] = is_a_object(buff))){
-
-#ifdef DEBUG_GET_CONF
-		outs("Object!\n");
-#endif
-
 			res->obj_count++;
 			res->object[res->obj_count - 1]->params = 0;
 		}else{
-
-#ifdef DEBUG_GET_CONF
-		outs("Parse string!\n");
-		outs(buff);
-#endif
 
 			parse_string(buff, res->object[res->obj_count - 1]);
 		}
@@ -69,38 +46,17 @@ uint32_t parse_string(char *string, object_t *obj){
 
 	int str_len;
 	if(2 > (str_len = strlen(string))){
-
-#ifdef DEBUG_GET_CONF
-		outs("String len less then 2!\n");
-#endif
-
 		return 0;
 	}
 
 	cursor = clear_string(string);
 	while(*cursor){
 		if(*cursor == '='){
-
-#ifdef DEBUG_GET_CONF
-		outs("Sine \"=\"!\n");
-#endif
-
 			key_pos = cursor;
 		}
 		if(*cursor == '#'){
 			return 0;
-
-#ifdef DEBUG_GET_CONF
-		outs("Comment!\n");
-#endif
-
 		}
-
-#ifdef DEBUG_GET_CONF
-		outd(cursor - string);
-#endif
-
-
 		cursor++;
 	}
 
@@ -108,19 +64,13 @@ uint32_t parse_string(char *string, object_t *obj){
 	key[key_pos - string] = 0;
 	strcpy(argument, key_pos+1);
 
-#ifdef DEBUG_GET_CONF
-	outs(key);
-	outs(argument);
-#endif
-
-
 	if(!strcmp(key, "on_bitmap")){
-//		obj->bmp[1] = read_pict(argument);
+		strcpy(obj->on_bitmap, argument);
 		obj->params |= IMAGE_1;
 	}
 
 	if(!strcmp(key, "off_bitmap")){
-//		obj->bmp[0] = read_pict(argument);
+		strcpy(obj->off_bitmap, argument);
 		obj->params |= IMAGE_2;
 	}
 
