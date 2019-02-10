@@ -7,7 +7,7 @@
 #include <linux/fb.h>
 #include <sys/mman.h>
 #include <sys/ioctl.h>
-#include "fbsh.h"
+//#include "fbsh.h"
 
 screen_t *init_screen(char *device){
 	int fbfd = 0;
@@ -61,7 +61,7 @@ screen_t *init_screen(char *device){
 int show_object(screen_t *scr, bmp_struct_t *bmp){
 
 	//Находим положение последней строки файла в рамках экрана.
-	uint8_t *cursor = fbp + (4 * xcoord) + ((ycoord + bmp->height) * (vinfo->xres * 4));	//В байтах
+	uint8_t *cursor = scr->fbp + (4 * bmp->xcoord) + ((ycoord + bmp->height) * (vinfo->xres * 4));	//В байтах
 	uint8_t *byte_field_cur = bmp->byte_field;
 	uint8_t *line_cursor;
 

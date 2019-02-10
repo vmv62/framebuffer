@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include "debug.h"
-#include "bmp.h"
+//#include "bmp.h"
 
 //Определение макросов для упрощения вывода отладочной информации.
 #define outs(exp)	printf("%s\n", exp)
@@ -36,8 +36,8 @@ typedef struct{
 	uint32_t	reg;
 	uint32_t xcoord;
 	uint32_t ycoord;
-	bmp_struct_t *on_bmp;
-	bmp_struct_t *off_bmp;
+//	bmp_struct_t *on_bmp;
+//	bmp_struct_t *off_bmp;
 }object_t;
 
 

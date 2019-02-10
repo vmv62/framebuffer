@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "get_conf.h"
-//#include "bmp.h"
 
 resurses_t *read_conf(char *file){
 	FILE *fd;
