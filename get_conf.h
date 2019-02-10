@@ -10,6 +10,7 @@
 
 #include <stdint.h>
 #include "debug.h"
+#include "bmp.h"
 
 //Определение макросов для упрощения вывода отладочной информации.
 #define outs(exp)	printf("%s\n", exp)
@@ -18,11 +19,10 @@
 #define BUFF_LEN 200
 #define OBJ_CNT 100
 
-#define IMAGE_1	0x01
-#define IMAGE_2	0x02
+#define ON_IMAGE	0x01
+#define OFF_IMAGE	0x02
 #define XCOORD		0x04
 #define YCOORD		0x08
-#define OBJECT_BITMAP_COUNT	10
 
 //#define OUTPUTS
 //#define DEBUG_STEPS
@@ -36,10 +36,8 @@ typedef struct{
 	uint32_t	reg;
 	uint32_t xcoord;
 	uint32_t ycoord;
-	uint8_t ob_bmp_num;
-	uint8_t off_bmp_num;
-	uint8_t bmp_cnt;
-//	bmp_struct_t *bmp[2];
+	bmp_struct_t *on_bmp;
+	bmp_struct_t *off_bmp;
 }object_t;
 
 

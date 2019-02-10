@@ -16,5 +16,5 @@ typedef struct{
 
 
 screen_t *init_screen(char *device);
-//int send_to(screen_t *scr, bm);
+//int chow_object(screen_t *scr, bmp_struct_t *bmp);
 //int set_color(uint32_t color, uint32_t shape, uint32_t xcoord, uint32_t ycoord, uint8_t *fbp);

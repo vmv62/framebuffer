@@ -8,28 +8,36 @@
 int main(int argc, char **argv){
 	screen_t *scr;
 	resurses_t *res;
-	object_t *obj_zero;;
-
+	object_t *cur_obj;
+/*
 	if(2 < atoi(argv[1])){
 		printf("Wrong number!\n");
 		return 0;
 	}
-
+*/
 	//Читаем файл конфигурации.
 	res = read_conf("monitor.conf");
 	//Определяем параметры экрана на который будем выводть изображения
 	scr = init_screen("/dev/fb0");
-	//Загружаем ресурсы программы.
 
-//	res->object[0]->bmp[0] = read_pict(res->object[0]->on_bitmap);
-	obj_zero = res->object[atoi(argv[1])];
+	//Загружаем ресурсы программы. Читаем изображения в память.
+	for(uint32_t i = 0; i < res->obj_count; i++){
+		cur_obj = res->object[i];
+		if(cur_obj->params & ON_IMAGE){
+			cur_obj->on_bmp = read_pict(cur_obj->on_bitmap);
+		}
+
+		if(cur_obj->params & OFF_IMAGE){
+			cur_obj->on_bmp = read_pict(cur_obj->off_bitmap);
+		}
+	}
+
+	//Пробуем вывести одно изображение на экран.
+	show_object(res->object[0]->on_bmp);
 
 #ifdef DEBUG_MAIN
-	printf("%s\n", res->object[atoi(argv[1])]->on_bitmap);
-	printf("Resurses:\n\tObject 1 name: %s;\n\tObject 1 x coord: %d;\n\tObject 1 y coord: %d;\n\n", obj_zero->obj_name, obj_zero->xcoord, obj_zero->ycoord);
-	printf("Screen information:\n\tX resolution: %d;\n\tY resolution: %d;\n\tBPP: %d\n", scr->xres, scr->yres, scr->screen_bpp);
+	printf("Image bpp %d\n", res->object[0]->on_bmp->bpp);
 #endif
-
 	free(res);
 	free(scr);
 	return 0;

@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "get_conf.h"
-
+//#include "bmp.h"
 
 resurses_t *read_conf(char *file){
 	FILE *fd;
@@ -66,12 +66,12 @@ uint32_t parse_string(char *string, object_t *obj){
 
 	if(!strcmp(key, "on_bitmap")){
 		strcpy(obj->on_bitmap, argument);
-		obj->params |= IMAGE_1;
+		obj->params |= ON_IMAGE;
 	}
 
 	if(!strcmp(key, "off_bitmap")){
 		strcpy(obj->off_bitmap, argument);
-		obj->params |= IMAGE_2;
+		obj->params |= OFF_IMAGE;
 	}
 
 	if(!strcmp(key, "xcoord")){
