@@ -3,11 +3,12 @@
 #include <stdlib.h>
 #include "fbsh.h"
 #include "get_conf.h"
+#include "bmp.h"
 
 int main(int argc, char **argv){
 	screen_t *scr;
 	resurses_t *res;
-	object_t *cur_obj;
+//	object_t *cur_obj;
 /*
 	if(2 < atoi(argv[1])){
 		printf("Wrong number!\n");

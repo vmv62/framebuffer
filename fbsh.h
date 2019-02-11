@@ -1,5 +1,5 @@
 #include "debug.h"
-#include "bmp.h"
+//#include "bmp.h"
 //#define DEBUG
 
 
@@ -16,7 +16,7 @@ typedef struct{
 }screen_t;
 
 typedef struct{
-	bmp_stuct_t *on_bmp
+	bmp_struct_t *on_bmp;
 	bmp_struct_t *off_bmp;
 	uint32_t xcoord;
 	uint32_t ycoord;

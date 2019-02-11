@@ -15,6 +15,11 @@ int main(int argc, char **argv){
 	return 0;
 }
 */
+/*
+screen_object_t load_objects(){
+
+}
+*/
 
 //read picture to memory
 bmp_struct_t *read_pict(char *file){
