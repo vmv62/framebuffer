@@ -33,7 +33,7 @@ bmp_struct_t *read_pict(char *file){
 
 	fd = fopen(file, "r");
 	if(fd == NULL){
-		printf("Error with file!\n");
+		printf("Error open BMP file!\n");
 		exit(0);
 	}
 
@@ -47,11 +47,21 @@ bmp_struct_t *read_pict(char *file){
 
 	bmp->byte_field = (uint8_t *)malloc(bmp->bytes_field_size);
 
+#ifdef DEBUG_BMP
+   printf("Start coping bitdield\n");
+#endif
+
+
 	if(bmp->bpp == 32){
 		//Копируем битовое поле в память.
 		fseek(fd, pixels_pointer, SEEK_SET);
 		fread(bmp->byte_field, 1, bmp->bytes_field_size, fd);
 	}
+
+#ifdef DEBUG_BMP
+   printf("Stop coping bitdield\n");
+#endif
+
 
 	fclose(fd);
 

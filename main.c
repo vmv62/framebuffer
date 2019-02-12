@@ -10,15 +10,13 @@ int main(int argc, char **argv){
 	resurses_t *res;
 
 	typedef struct{
-		uint8_t *bit_field[10];
-		uint32_t x_res;
-		uint32_t y_res;
+		bmp_struct_t *bitmap[10];
 		uint32_t x_coord;
-		uint32_t y_coord
+		uint32_t y_coord;
 		uint32_t state;
 	}disp_object_t;
 
-	disp_object_t *object[100];
+	disp_object_t object[100];
 
 //	object_t *cur_obj;
 /*
@@ -29,16 +27,30 @@ int main(int argc, char **argv){
 */
 	//Читаем файл конфигурации.
 	res = read_conf("monitor.conf");
+#ifdef MAIN
+    printf("Peogram parametrs is read!\n");
+#endif
 	//Определяем параметры экрана на который будем выводть изображения
 	scr = init_screen("/dev/fb0");
-
 	//Считываем ресурсы изображения.
 	for(uint8_t i =0; i < res->obj_count; i++){
-		if(res->object[i]->params & ON_IMAGE){
-			object[i]->bit_field[0] = 
+		if(res->object[i]->params && ON_IMAGE){
+			printf("%s\n", res->object[i]->on_bitmap);
+			object[i].bitmap[0] = read_pict(res->object[i]->on_bitmap);
 		}
+
+		if(res->object[i]->params && OFF_IMAGE){
+         object[i].bitmap[0] = read_pict(res->object[i]->off_bitmap);
+      }
+
+		object[i].x_coord = res->object[i]->xcoord;
+		object[i].y_coord = res->object[i]->ycoord;
+		object[i].state = 0;
 	}
 
+	for(uint32_t i = 0; i < res->obj_count; i++){
+		printf("X coord: %d; Y coord: %d;\n", object[i].x_coord, object[i].y_coord);
+	}
 
 #ifdef DEBUG_MAIN
 	printf("%s\n%s\n", res->object[0]->on_bitmap, res->object[0]->off_bitmap);
