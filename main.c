@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "fbsh.h"
 #include "get_conf.h"
 #include "bmp.h"
@@ -56,9 +57,6 @@ int main(int argc, char **argv){
 		object[i]->x_coord = res->object[i]->xcoord;
 		object[i]->y_coord = res->object[i]->ycoord;
 		object[i]->state = 1;
-		if(i == 1){
-			object[i]->state = 0;
-		}
 
 		if(param & ON_IMAGE){
 			object[i]->bitmap[1] = read_pict(res->object[i]->on_bitmap);
@@ -78,10 +76,16 @@ int main(int argc, char **argv){
 #endif
 
 	while(1){
+		uint8_t state;
 		for(uint32_t i = 0; i < res->obj_count; i++){
-			show_object(scr, object[i]->bitmap[object[i]->state]->byte_field, object[i]->bitmap[1]->height, object[i]->bitmap[1]->width, object[i]->x_coord, object[i]->y_coord);
+			show_object(scr, object[i]->bitmap[state]->byte_field, object[i]->bitmap[1]->height, object[i]->bitmap[1]->width, object[i]->x_coord, object[i]->y_coord);
 		}
-//		sleep(1);	
+		sleep(1);
+		if(state == 1){
+			state = 0;
+		}else{
+			state = 1;
+		}
 	}
 
 
