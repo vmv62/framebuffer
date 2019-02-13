@@ -33,7 +33,7 @@ bmp_struct_t *read_pict(char *file){
 
 	fd = fopen(file, "r");
 	if(fd == NULL){
-		printf("Error open BMP file!\n");
+		printf("Error open \"%s\" file!\n", file);
 		exit(0);
 	}
 
