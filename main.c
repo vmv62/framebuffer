@@ -75,10 +75,10 @@ int main(int argc, char **argv){
 //	printf("%d\n%d\n", object[0]->x_coord, object[0]->y_coord);
 #endif
 
+	uint8_t state;
 	while(1){
-		uint8_t state;
 		for(uint32_t i = 0; i < res->obj_count; i++){
-			show_object(scr, object[i]->bitmap[state]->byte_field, object[i]->bitmap[1]->height, object[i]->bitmap[1]->width, object[i]->x_coord, object[i]->y_coord);
+			show_object(scr, object[i]->bitmap[state]->byte_field, object[i]->bitmap[state]->height, object[i]->bitmap[state]->width, object[i]->x_coord, object[i]->y_coord);
 		}
 		sleep(1);
 		if(state == 1){
@@ -86,6 +86,10 @@ int main(int argc, char **argv){
 		}else{
 			state = 1;
 		}
+
+#ifdef DEBUG_MAIN
+    printf("Iteration!\n");
+#endif
 	}
 
 
