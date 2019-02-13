@@ -15,7 +15,7 @@ typedef struct{
 	uint8_t *fbp;
 }screen_t;
 
-
+/*
 typedef struct{
 	uint32_t	x_res;
 	uint32_t y_res;
@@ -26,8 +26,8 @@ typedef struct{
 	uint8_t *on_byte_field;
 	uint8_t *off_byte_field;
 }screen_object_t;
-
+*/
 
 screen_t *init_screen(char *device);
-//int chow_object(screen_t *scr, bmp_struct_t *bmp);
+int chow_object(screen_t *scr, uint8_t *byte_field, uint32_t height, uint32_t width, uint32_t x_coord, uint32_t y_coord);
 //int set_color(uint32_t color, uint32_t shape, uint32_t xcoord, uint32_t ycoord, uint8_t *fbp);

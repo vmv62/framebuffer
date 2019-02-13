@@ -73,6 +73,12 @@ int main(int argc, char **argv){
 
 //	printf("%d\n%d\n", object[0]->x_coord, object[0]->y_coord);
 #endif
+
+	for(uint32_t i = 0; i < res->obj_count; i++){
+		show_object(scr, object[i]->bitmap[1]->byte_field, object[i]->bitmap[1]->height, object[i]->bitmap[1]->width, object[i]->x_coord, object[i]->y_coord);
+	}
+
+
 	free(res);
 	free(scr);
 /*	for(uint32_t i = 0; i < res->obj_count; i++){

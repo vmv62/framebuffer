@@ -58,27 +58,27 @@ screen_t *init_screen(char *device){
    return scr;
 }
 
-/*
-int show_object(screen_t *scr, bmp_struct_t *bmp){
+
+int show_object(screen_t *scr, uint8_t *byte_field, uint32_t height, uint32_t width, uint32_t x_coord, uint32_t y_coord){
 
 	//Находим положение последней строки файла в рамках экрана.
-	uint8_t *cursor = scr->fbp + (4 * bmp->xcoord) + ((ycoord + bmp->height) * (vinfo->xres * 4));	//В байтах
-	uint8_t *byte_field_cur = bmp->byte_field;
+	uint8_t *cursor = scr->fbp + (4 * x_coord) + ((y_coord + height) * (scr->xres * 4));	//В байтах
+	uint8_t *byte_field_cur = byte_field;
 	uint8_t *line_cursor;
 
-	for(uint32_t i = 0; i < bmp->height; i++){		//pixel
+	for(uint32_t i = 0; i < height; i++){		//pixel
 		line_cursor = cursor;
-		for(uint32_t t = 0; t < bmp->width * 4; t++){
+		for(uint32_t t = 0; t < width * 4; t++){
 			*line_cursor = *byte_field_cur;
 			byte_field_cur++;
 			line_cursor++;
 		}
-		cursor -= (vinfo->xres ) * 4;					//bytesi
+		cursor -= (scr->xres ) * 4;					//bytesi
 	}
 
   	return 0;
 }
-*/
+
 /*
 int show_object(screen_t *scr, bmp_struct_t *bmp){
 
