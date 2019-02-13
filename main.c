@@ -10,7 +10,7 @@ int main(int argc, char **argv){
 	resurses_t *res;
 
 	char default_config[] = {"monitor.conf"};
-
+/*
 	typedef struct{
 		bmp_struct_t *bitmap[10];
 		uint32_t x_coord;
@@ -19,6 +19,9 @@ int main(int argc, char **argv){
 	}disp_object_t;
 
 	disp_object_t *object[100];
+*/
+
+	screen_object_t *object[100];
 
 //	object_t *cur_obj;
 /*
@@ -45,18 +48,22 @@ int main(int argc, char **argv){
 
 	for(uint8_t i =0; i < res->obj_count; i++){
 		uint32_t param = res->object[i]->params;
-		object[i] = (disp_object_t *)malloc(sizeof(disp_object_t));
-		if(param & ON_IMAGE){
-			object[i]->bitmap[1] = read_pict(res->object[i]->on_bitmap);
-		}
+		bmp_struct_t *tmp_bmp;
 
-		if(param & OFF_IMAGE){
-         object[i]->bitmap[0] = read_pict(res->object[i]->off_bitmap);
-      }
+//		object[i] = (disp_object_t *)malloc(sizeof(disp_object_t));
+		object[i] = (screen_object_t *)malloc(sizeof(screen_object_t));
 
 		object[i]->x_coord = res->object[i]->xcoord;
 		object[i]->y_coord = res->object[i]->ycoord;
 		object[i]->state = 0;
+
+		if(param & ON_IMAGE){
+			tmp_bmp = read_pict(res->object[i]->on_bitmap);
+		}
+
+		if(param & OFF_IMAGE){
+//         object[i]->bitmap[0] = read_pict(res->object[i]->off_bitmap);
+      }
 
 	}
 #ifdef DEBUG_MAIN
