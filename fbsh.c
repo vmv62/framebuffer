@@ -55,6 +55,10 @@ screen_t *init_screen(char *device){
 	scr->screen_bpp = vinfo.bits_per_pixel;
 	scr->fbp = fbp;
 
+#ifdef DEBUG_FBC
+	printf("Display BPP: %d\n", vinfo.bits_per_pixel);
+#endif
+
    return scr;
 }
 
@@ -68,7 +72,15 @@ int show_object(screen_t *scr, uint8_t *byte_field, uint32_t height, uint32_t wi
 
 	for(uint32_t i = 0; i < height; i++){		//pixel
 		line_cursor = cursor;
+
+#ifdef DEBUG_FBC
+        printf("Line %d\n", i);
+#endif
+
 		for(uint32_t t = 0; t < width * 4; t++){
+#ifdef DEBUG_FBC
+        printf("Line of image %d\n", t);
+#endif
 			*line_cursor = *byte_field_cur;
 			byte_field_cur++;
 			line_cursor++;
