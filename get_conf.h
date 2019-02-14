@@ -23,13 +23,14 @@
 #define OFF_IMAGE	0x02
 #define XCOORD		0x04
 #define YCOORD		0x08
-
+#define DEF_STATE 0x10
 
 //Структура объекта.
 typedef struct{
 	char obj_name[64];
 	char on_bitmap[64];
 	char off_bitmap[64];
+	char	def_state;
 	uint32_t params;
 	uint32_t	reg;
 	uint32_t xcoord;

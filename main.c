@@ -21,6 +21,9 @@ int main(int argc, char **argv){
 
 	disp_object_t *object[100];
 
+	if(fork()){
+		return 0;
+	}
 
 //	screen_object_t *object[100];
 
@@ -52,11 +55,19 @@ int main(int argc, char **argv){
 //		bmp_struct_t *tmp_bmp;
 
 		object[i] = (disp_object_t *)malloc(sizeof(disp_object_t));
-//		object[i] = (screen_object_t *)malloc(sizeof(screen_object_t));
 
-		object[i]->x_coord = res->object[i]->xcoord;
-		object[i]->y_coord = res->object[i]->ycoord;
-		object[i]->state = 1;
+
+		if(param & XCOORD){
+			object[i]->x_coord = res->object[i]->xcoord;
+		}
+
+		if(param & YCOORD){
+			object[i]->y_coord = res->object[i]->ycoord;
+		}
+
+		if(param & DEF_STATE){
+			object[i]->state = res->object[i]->def_state;
+		}
 
 		if(param & ON_IMAGE){
 			object[i]->bitmap[1] = read_pict(res->object[i]->on_bitmap);
@@ -76,16 +87,16 @@ int main(int argc, char **argv){
 #endif
 
 	while(1){
-		uint8_t state;
+//		uint8_t state;
 		for(uint32_t i = 0; i < res->obj_count; i++){
-			show_object(scr, object[i]->bitmap[state]->byte_field, object[i]->bitmap[1]->height, object[i]->bitmap[1]->width, object[i]->x_coord, object[i]->y_coord);
+			show_object(scr, object[i]->bitmap[object[i]->state]->byte_field, object[object[i]->state]->bitmap[object[i]->state]->height, object[i]->bitmap[object[i]->state]->width, object[i]->x_coord, object[i]->y_coord);
 		}
-		sleep(1);
-		if(state == 1){
-			state = 0;
-		}else{
-			state = 1;
-		}
+//		sleep(1);
+//		if(state == 1){
+//			state = 0;
+//		}else{
+//			state = 1;
+//		}
 	}
 
 

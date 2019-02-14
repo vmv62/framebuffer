@@ -88,6 +88,11 @@ uint32_t parse_string(char *string, object_t *obj){
 		obj->params |= YCOORD;
 	}
 
+	if(!strcmp(key, "default_state")){
+		obj->def_state = atoi(argument);
+		obj->params |= DEF_STATE;
+	}
+
 	return 0;
 }
 
