@@ -20,11 +20,11 @@ int main(int argc, char **argv){
 	}disp_object_t;
 
 	disp_object_t *object[100];
-
+/*
 	if(fork()){
 		return 0;
 	}
-
+*/
 //	screen_object_t *object[100];
 
 //	object_t *cur_obj;
@@ -85,11 +85,8 @@ int main(int argc, char **argv){
 
 //	printf("%d\n%d\n", object[0]->x_coord, object[0]->y_coord);
 #endif
-
-	uint8_t state;
+/*
 	while(1){
-<<<<<<< HEAD
-//		uint8_t state;
 		for(uint32_t i = 0; i < res->obj_count; i++){
 			show_object(scr, object[i]->bitmap[object[i]->state]->byte_field, object[object[i]->state]->bitmap[object[i]->state]->height, object[i]->bitmap[object[i]->state]->width, object[i]->x_coord, object[i]->y_coord);
 		}
@@ -99,23 +96,13 @@ int main(int argc, char **argv){
 //		}else{
 //			state = 1;
 //		}
-=======
-		for(uint32_t i = 0; i < res->obj_count; i++){
-			show_object(scr, object[i]->bitmap[state]->byte_field, object[i]->bitmap[state]->height, object[i]->bitmap[state]->width, object[i]->x_coord, object[i]->y_coord);
-		}
-		sleep(1);
-		if(state == 1){
-			state = 0;
-		}else{
-			state = 1;
-		}
 
 #ifdef DEBUG_MAIN
     printf("Iteration!\n");
 #endif
->>>>>>> 17a6b1f1334ae91a96f8318ac61a4b545bf4c921
 	}
-
+*/
+show_object(scr, object[3]->bitmap[1]->byte_field, object[3]->bitmap[1]->height, object[3]->bitmap[1]->width, object[3]->x_coord, object[3]->y_coord);
 
 	free(res);
 	free(scr);

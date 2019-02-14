@@ -29,5 +29,6 @@ typedef struct{
 */
 
 screen_t *init_screen(char *device);
-int chow_object(screen_t *scr, uint8_t *byte_field, uint32_t height, uint32_t width, uint32_t x_coord, uint32_t y_coord);
+int show_object(screen_t *scr, uint8_t *byte_field, uint32_t height, uint32_t width, uint32_t x_coord, uint32_t y_coord);
+int show_digit(screen_t *scr, uint8_t *digs_bitmap, uint32_t x_coord, uint32_t y_coord, int digit);
 //int set_color(uint32_t color, uint32_t shape, uint32_t xcoord, uint32_t ycoord, uint8_t *fbp);
