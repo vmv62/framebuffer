@@ -25,11 +25,6 @@ int main(int argc, char **argv){
 	return 0;
 }
 
-/*
-screen_object_t load_objects(){
-
-}
-*/
 
 //read picture to memory
 int *get_from_pict(FILE *fd, int command){
@@ -41,9 +36,7 @@ int *get_from_pict(FILE *fd, int command){
 	printf("get_from_pict start\n");
 #endif
 
-/*
-	bmp = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
-*/
+
 	int pxfs;
 	uint8_t *bf;
 
@@ -69,34 +62,6 @@ int *get_from_pict(FILE *fd, int command){
 								return (int *)bf;
 	}
 
-
-
-
-/*
-	bmp->bytes_field_size = get_int_from_file(&fd, OFFSET_SIZE, 4) - get_int_from_file(&fd, OFFSET_PIXEL_DATA, 4);
-	pixels_pointer = get_int_from_file(&fd, OFFSET_PIXEL_DATA, 4);
-
-	bmp->byte_field = (uint8_t *)malloc(bmp->bytes_field_size);
-*/
-/*
-#ifdef DEBUG_BMP
-   printf("Start coping bitdield\n");
-#endif
-
-
-	if(bmp->bpp == 32){
-		//Копируем битовое поле в память.
-		fseek(fd, pixels_pointer, SEEK_SET);
-		fread(bmp->byte_field, 1, bmp->bytes_field_size, fd);
-	}
-
-#ifdef DEBUG_BMP
-   printf("Stop coping bitdield\n");
-#endif
-
-
-	fclose(fd);
-*/
 	return 0;
 
 }
