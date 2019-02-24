@@ -32,7 +32,7 @@ enum{
 	GYRES,
 	GBPP,
 	GBITFLD,
-} 
+};
 
 //Ошибки при работе с картинкой
 enum{
@@ -42,6 +42,6 @@ enum{
 };
 
 //screen_object_t load_objects();
-int *read_pict(FILE *fd, int command);
-uint32_t get_int_from_file(FILE **fd, uint32_t offset, uint32_t size);
+int *get_from_pict(FILE *fd, int command);
+uint32_t get_int_from_file(FILE *fd, uint32_t offset, uint32_t size);
 
