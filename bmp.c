@@ -19,6 +19,7 @@ int main(int argc, char **argv){
 	printf("y rres: %d\n", (int)get_from_pict(fd, GYRES));
 	printf("y bpp: %d\n", (int)get_from_pict(fd, GBPP));
 	printf("y offset bit count: %d\n", (int)get_from_pict(fd, GBFOFS));
+	printf("y size of image in bytes: %d\n", (int)get_from_pict(fd, GISIZE));
 
 	fclose(fd);
 //	free(bmp);
@@ -51,6 +52,9 @@ int *get_from_pict(FILE *fd, int command){
 						return (int *)res;
 
 		case GBFOFS:	res = get_int_from_file(fd, OFFSET_PIXEL_DATA, 4);
+							return (int *)res;
+
+		case GISIZE:	res = get_int_from_file(fd, OFFSET_SIZE, 4);
 							return (int *)res;
 
 		case GBITFIELD: 	pxfs = get_int_from_file(fd, OFFSET_SIZE, 4) - get_int_from_file(fd, OFFSET_PIXEL_DATA, 4);
