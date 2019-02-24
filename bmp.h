@@ -5,7 +5,7 @@
 #define OFFSET_PIXEL_DATA 0xA
 #define OFFSET_WIDTH	0x12
 #define OFFSET_HEIGHT	0x16
-#define OFFSET_BITCOUNT	0x1C
+#define OFFSET_BITPERPIX	0x1C
 #define OFFSET_IMAGESIZE	34
 
 //#define DEBUG
@@ -31,7 +31,9 @@ enum{
 	GXRES = 0x01,
 	GYRES,
 	GBPP,
-	GBITFLD,
+	GBFSIZE,
+	GBFOFS,
+	GBITFIELD,
 };
 
 //Ошибки при работе с картинкой

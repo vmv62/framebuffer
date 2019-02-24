@@ -5,9 +5,6 @@
 
 int main(int argc, char **argv){
 	FILE *fd;
-//	bmp_struct_t *bmp;
-//	bmp = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
-//	int xres;
 
 	fd = fopen("pict/debian.bmp", "r");
 	if(fd == -1){
@@ -20,8 +17,8 @@ int main(int argc, char **argv){
 
 	printf("x res: %d\n", (int)get_from_pict(fd, GXRES));
 	printf("y rres: %d\n", (int)get_from_pict(fd, GYRES));
-
-	while(1);;
+	printf("y bpp: %d\n", (int)get_from_pict(fd, GBPP));
+	printf("y offset bit count: %d\n", (int)get_from_pict(fd, GBFOFS));
 
 	fclose(fd);
 //	free(bmp);
@@ -36,9 +33,7 @@ screen_object_t load_objects(){
 
 //read picture to memory
 int *get_from_pict(FILE *fd, int command){
-//	uint32_t pixels_pointer;
-//	bmp_struct_t *bmp;
-
+	int res;
 #ifdef DEBUG_BMP
 	printf("fd in get_from_pict: %d\n", (int)fd);
 #endif
@@ -49,27 +44,32 @@ int *get_from_pict(FILE *fd, int command){
 /*
 	bmp = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
 */
-	if(command == GXRES){
-		int res = get_int_from_file(fd, OFFSET_WIDTH, 4);
-		return (int *)res;
+	int pxfs;
+	uint8_t *bf;
+
+	switch(command){
+		case GXRES:	res = get_int_from_file(fd, OFFSET_WIDTH, 4);
+						return (int *)res;
+
+		case GYRES:	res = get_int_from_file(fd, OFFSET_HEIGHT, 4);
+						return (int *)res;
+
+		case GBPP:	res = get_int_from_file(fd, OFFSET_BITPERPIX, 2);
+						return (int *)res;
+
+		case GBFOFS:	res = get_int_from_file(fd, OFFSET_PIXEL_DATA, 4);
+							return (int *)res;
+
+		case GBITFIELD: 	pxfs = get_int_from_file(fd, OFFSET_SIZE, 4) - get_int_from_file(fd, OFFSET_PIXEL_DATA, 4);
+								bf = (uint8_t *)malloc(pxfs);
+
+								//Копируем битовое поле в память.
+								fseek(fd, (int)get_int_from_file(fd, OFFSET_PIXEL_DATA, 4), SEEK_SET);
+								fread(bf, 1, pxfs, fd);
+								return (int *)bf;
 	}
 
-	if(command == GYRES){
-		int res = get_int_from_file(fd, OFFSET_HEIGHT, 4);
-		return (int *)res;
-	}
 
-	if(command == GBPP){
-		int res = get_int_from_file(fd, OFFSET_PIXEL_DATA, 4);
-		return (int *)res;
-	}
-/*
-	if(command == GBPP){
-		int res = get_int_from_file(fd, OFFSET_PIXEL_DATA, 4);
-		return (int *)res;
-	}
-
-*/
 
 
 /*
