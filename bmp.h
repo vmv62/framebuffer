@@ -27,15 +27,12 @@ typedef struct{
 	uint8_t 	*byte_field;
 }bmp_struct_t;
 
-/*
-typedef struct{
-   bmp_struct_t *on_bmp;
-   bmp_struct_t *off_bmp;
-   uint32_t xcoord;
-   uint32_t ycoord;
-   uint8_t state;
-}screen_object_t;
-*/
+enum{
+	GXRES = 0x01,
+	GYRES,
+	GBPP,
+	GBITFLD,
+} 
 
 //Ошибки при работе с картинкой
 enum{
@@ -45,6 +42,6 @@ enum{
 };
 
 //screen_object_t load_objects();
-bmp_struct_t *read_pict(char *file);
+int *read_pict(FILE *fd, int command);
 uint32_t get_int_from_file(FILE **fd, uint32_t offset, uint32_t size);
 
