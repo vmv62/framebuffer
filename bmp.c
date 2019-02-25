@@ -5,6 +5,7 @@
 
 int main(int argc, char **argv){
 	FILE *fd;
+	uint8_t* btfld;
 
 	fd = fopen("pict/debian.bmp", "r");
 	if(fd == -1){
@@ -20,6 +21,7 @@ int main(int argc, char **argv){
 	printf("y bpp: %d\n", (int)get_from_pict(fd, GBPP));
 	printf("y offset bit count: %d\n", (int)get_from_pict(fd, GBFOFS));
 	printf("y size of image in bytes: %d\n", (int)get_from_pict(fd, GISIZE));
+	btfld = (uint8_t *)get_from_pict(fd, GBITFIELD);
 
 	fclose(fd);
 //	free(bmp);
@@ -39,7 +41,7 @@ int *get_from_pict(FILE *fd, int command){
 
 
 	int pxfs;
-	uint8_t *bf;
+	int *bf;
 
 	switch(command){
 		case GXRES:	res = get_int_from_file(fd, OFFSET_WIDTH, 4);
@@ -58,12 +60,12 @@ int *get_from_pict(FILE *fd, int command){
 							return (int *)res;
 
 		case GBITFIELD: 	pxfs = get_int_from_file(fd, OFFSET_SIZE, 4) - get_int_from_file(fd, OFFSET_PIXEL_DATA, 4);
-								bf = (uint8_t *)malloc(pxfs);
-
+								bf = (int *)malloc(pxfs);
+								printf("%d\n", pxfs);
 								//Копируем битовое поле в память.
 								fseek(fd, (int)get_int_from_file(fd, OFFSET_PIXEL_DATA, 4), SEEK_SET);
 								fread(bf, 1, pxfs, fd);
-								return (int *)bf;
+								return bf;
 	}
 
 	return 0;
