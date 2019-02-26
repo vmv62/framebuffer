@@ -28,14 +28,16 @@
 //Структура объекта.
 typedef struct{
 	char obj_name[64];
-	char on_bitmap[64];
-	char off_bitmap[64];
+	char *on_bitmap;
+	char *off_bitmap;
 	char	def_state;
 	uint32_t params;
 	uint32_t	reg;
+	uint32_t x_res;
+	uint32_t y_res;
 	uint32_t xcoord;
 	uint32_t ycoord;
-}object_t;
+}bit_st_object_t;
 
 
 typedef struct{
