@@ -67,6 +67,12 @@ int main(int argc, char **argv){
 			}
 		}
 
+		sleep(1);
+		if(res->object[0]->def_state == 1){
+			res->object[0]->def_state = 0;
+		}else{
+			res->object[0]->def_state = 1;
+		}
 #ifdef DEBUG_MAIN
     printf("Iteration!\n");
 #endif
