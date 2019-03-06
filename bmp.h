@@ -23,6 +23,7 @@ enum{
 	BMP_XRES,
 	BMP_YRES,
 	BMP_BFS,
+	BMP_BFO,
 	BMP_BF,
 };
 

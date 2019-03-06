@@ -11,6 +11,8 @@ int main(int argc, char **argv){
 		uint8_t bpp;
 		uint32_t xres;
 		uint32_t yres;
+		uint32_t bfs;
+		uint32_t bfo;
 	}pict_t;
 
 	pict_t *obj;
@@ -25,8 +27,11 @@ int main(int argc, char **argv){
 
 	obj->bpp = (uint8_t)get_from_pict(fd, BMP_BPP);
 	obj->xres = (uint32_t)get_from_pict(fd, BMP_XRES);
+	obj->yres = (uint32_t)get_from_pict(fd, BMP_YRES);
+	obj->bfs = (uint32_t)get_from_pict(fd, BMP_BFS);
+	obj->bfo = (uint32_t)get_from_pict(fd, BMP_BFO);
 
-	printf("BPP = %d \nXRES = %d\n", obj->bpp, obj->xres);
+	printf("BPP = %d \nXRES = %d \nYRES = %d \nBFSIZE = %d \nBFOFFSET = %d\n", obj->bpp, obj->xres, obj->yres, obj->bfs, obj->bfo);
 
 	fclose(fd);
 
@@ -43,8 +48,11 @@ screen_object_t load_objects(){
 uint32_t get_from_pict(FILE *file, uint32_t cmd){
 
 	switch(cmd){
-		case BMP_BPP: 		return (get_int_from_file(&file, OFFSET_BITCOUNT, 4));
+		case BMP_BPP: 		return (get_int_from_file(&file, OFFSET_BITCOUNT, 1));
 		case BMP_XRES: 	return (get_int_from_file(&file, OFFSET_WIDTH, 4));
+		case BMP_YRES: 	return (get_int_from_file(&file, OFFSET_HEIGHT, 4));
+		case BMP_BFS: 		return (get_int_from_file(&file, OFFSET_SIZE, 4));
+		case BMP_BFO: 		return (get_int_from_file(&file, OFFSET_PIXEL_DATA, 4));
 	}
 /*
 	bmp->bpp = get_int_from_file(&fd, OFFSET_BITCOUNT, 4);
