@@ -1,20 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include "bmp.h"
 
-/*
+
 int main(int argc, char **argv){
-	bmp_struct_t *bmp;
-	bmp = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
+	FILE *fd;
 
-	read_pict(argv[1], bmp);
+	typedef struct{
+		uint8_t bpp;
+		uint32_t xres;
+		uint32_t yres;
+	}pict_t;
 
-	while(1);;
+	pict_t *obj;
 
-	free(bmp);
+	obj = (pict_t *)malloc(sizeof(pict_t));
+
+	fd = fopen(argv[1], "r");
+	if(fd == NULL){
+		printf("Error open file!\n");
+		exit(0);
+	}
+
+	obj->bpp = (uint8_t)get_from_pict(fd, BMP_BPP);
+	obj->xres = (uint32_t)get_from_pict(fd, BMP_XRES);
+
+	printf("BPP = %d \nXRES = %d\n", obj->bpp, obj->xres);
+
+	fclose(fd);
+
 	return 0;
 }
-*/
+
 /*
 screen_object_t load_objects(){
 
@@ -22,23 +40,13 @@ screen_object_t load_objects(){
 */
 
 //read picture to memory
-bmp_struct_t *read_pict(char *file){
-	FILE *fd;
-	uint32_t pixels_pointer;
-	bmp_struct_t *bmp;
+uint32_t get_from_pict(FILE *file, uint32_t cmd){
 
-#ifdef DEBUG_BMP
-	printf("%s\n", file);
-#endif
-
-	fd = fopen(file, "r");
-	if(fd == NULL){
-		printf("Error open \"%s\" file!\n", file);
-		exit(0);
+	switch(cmd){
+		case BMP_BPP: 		return (get_int_from_file(&file, OFFSET_BITCOUNT, 4));
+		case BMP_XRES: 	return (get_int_from_file(&file, OFFSET_WIDTH, 4));
 	}
-
-	bmp = (bmp_struct_t *)malloc(sizeof(bmp_struct_t));
-
+/*
 	bmp->bpp = get_int_from_file(&fd, OFFSET_BITCOUNT, 4);
 	bmp->width = get_int_from_file(&fd, OFFSET_WIDTH, 4);
 	bmp->height = get_int_from_file(&fd, OFFSET_HEIGHT, 4);
@@ -64,8 +72,8 @@ bmp_struct_t *read_pict(char *file){
 
 
 	fclose(fd);
-
-	return bmp;
+*/
+	return 0;
 }
 
 //Полностью рабочая функция.
