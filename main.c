@@ -4,22 +4,22 @@
 #include <unistd.h>
 #include "fbsh.h"
 #include "get_conf.h"
-#include "bmp.h"
+//#include "bmp.h"
 
 int main(int argc, char **argv){
 	screen_t *scr;
 	resurses_t *res;
 
 	char default_config[] = {"monitor.conf"};
-
+/*
 	typedef struct{
-		bmp_struct_t *bitmap[10];
+//		bmp_struct_t *bitmap[10];
 		uint32_t x_coord;
 		uint32_t y_coord;
 		uint32_t state;
 	}disp_object_t;
-
-	disp_object_t *object[100];
+*/
+//	disp_object_t *object[100];
 /*
 	if(fork()){
 		return 0;
@@ -50,59 +50,29 @@ int main(int argc, char **argv){
     printf("Params:\t%d\n", res->object[0]->params);
 #endif
 
-	for(uint8_t i =0; i < res->obj_count; i++){
-		uint32_t param = res->object[i]->params;
-//		bmp_struct_t *tmp_bmp;
-
-		object[i] = (disp_object_t *)malloc(sizeof(disp_object_t));
-
-
-		if(param & XCOORD){
-			object[i]->x_coord = res->object[i]->xcoord;
-		}
-
-		if(param & YCOORD){
-			object[i]->y_coord = res->object[i]->ycoord;
-		}
-
-		if(param & DEF_STATE){
-			object[i]->state = res->object[i]->def_state;
-		}
-
-		if(param & ON_IMAGE){
-			object[i]->bitmap[1] = read_pict(res->object[i]->on_bitmap);
-		}
-
-		if(param & OFF_IMAGE){
-         object[i]->bitmap[0] = read_pict(res->object[i]->off_bitmap);
-      }
-
-	}
 #ifdef DEBUG_MAIN
 	for(uint32_t i = 0; i < res->obj_count; i++){
-		printf("X coord: %d; Y coord: %d;\n", object[i]->x_coord, object[i]->y_coord);
+		printf("X coord: %d; Y coord: %d;\n", res->object[i]->xcoord, res->object[i]->ycoord);
 	}
 
-//	printf("%d\n%d\n", object[0]->x_coord, object[0]->y_coord);
 #endif
-/*
+
+
 	while(1){
 		for(uint32_t i = 0; i < res->obj_count; i++){
-			show_object(scr, object[i]->bitmap[object[i]->state]->byte_field, object[object[i]->state]->bitmap[object[i]->state]->height, object[i]->bitmap[object[i]->state]->width, object[i]->x_coord, object[i]->y_coord);
+			if(res->object[i]->def_state == 1){
+				show_object(scr, res->object[i]->on_bitmap, res->object[i]->yres, res->object[i]->xres, res->object[i]->xcoord, res->object[i]->ycoord);
+			}else{
+				show_object(scr, res->object[i]->off_bitmap, res->object[i]->yres, res->object[i]->xres, res->object[i]->xcoord, res->object[i]->ycoord);
+			}
 		}
-//		sleep(1);
-//		if(state == 1){
-//			state = 0;
-//		}else{
-//			state = 1;
-//		}
 
 #ifdef DEBUG_MAIN
     printf("Iteration!\n");
 #endif
 	}
-*/
-show_object(scr, object[3]->bitmap[1]->byte_field, object[3]->bitmap[1]->height, object[3]->bitmap[1]->width, object[3]->x_coord, object[3]->y_coord);
+
+//show_object(scr, object[3]->bitmap[1]->byte_field, object[3]->bitmap[1]->height, object[3]->bitmap[1]->width, object[3]->x_coord, object[3]->y_coord);
 
 	free(res);
 	free(scr);
