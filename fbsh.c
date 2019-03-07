@@ -59,6 +59,7 @@ screen_t *init_screen(char *device){
 	printf("Display BPP: %d\n", vinfo.bits_per_pixel);
 #endif
 
+	memset(fbp, 0x00, screensize);
    return scr;
 }
 
@@ -91,32 +92,27 @@ int show_object(screen_t *scr, uint8_t *byte_field, uint32_t height, uint32_t wi
   	return 0;
 }
 
-/*
-int show_object(screen_t *scr, bmp_struct_t *bmp){
+uint32_t make_line(screen_t *scr, point_t start, point_t end){
+	uint8_t *cursor;
 
-	//Находим положение последней строки файла в рамках экрана.
-	uint8_t *cursor = fbp + (4 * xcoord) + ((ycoord + bmp->height) * (vinfo->xres * 4));	//В байтах
-	uint8_t *byte_field_cur = bmp->byte_field;
-	uint8_t *line_cursor;
-
-	for(uint32_t i = 0; i < bmp->height; i++){		//pixel
-		line_cursor = cursor;
-		for(uint32_t t = 0; t < bmp->width * 4; t++){
-			*line_cursor = *byte_field_cur;
-			byte_field_cur++;
-			line_cursor++;
+	while((start.x =! end.x) && (start.y != end.y)){
+		cursor = scr->fbp + (start.x * start.y) + start.x;  //set curcor to start point of the line
+		*cursor = 0xFF;
+		*(++cursor) = 0xFF;
+		*(++cursor) = 0xFF;
+	//	*(++cursor) = 0xFF;
+		if(start.x > end.x){
+			start.x++;
+		}else{
+			start.x--;
 		}
-		cursor -= (vinfo->xres ) * 4;					//bytesi
+		if(start.y > end.y){
+			start.y++;
+		}else{
+			start.y--;
+		}
+		printf("%d:%d\n", start.x, start.y);
 	}
 
-  	return 0;
+	return 0;
 }
-
-*/
-
-/*
-int set_color(uint32_t color, bmp_struct_t *bmp, uint32_t xcoord, uint32_t y_coord, uint8_t *fbp){
-
-
-}
-*/

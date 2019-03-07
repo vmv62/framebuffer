@@ -30,8 +30,8 @@ typedef struct{
 	char obj_name[64];
 	uint8_t *on_bitmap;
 	uint8_t *off_bitmap;
-	char	def_state;
-	char bpp;
+	uint8_t	state;
+	uint8_t bpp;
 	uint32_t xres;
 	uint32_t yres;
 	uint32_t params;

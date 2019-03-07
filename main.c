@@ -57,10 +57,14 @@ int main(int argc, char **argv){
 
 #endif
 
+	point_t start = {0, 0};
+	point_t end = {500, 500};
+	make_line(scr, start, end);
 
+	uint32_t counter =0;
 	while(1){
 		for(uint32_t i = 0; i < res->obj_count; i++){
-			if(res->object[i]->def_state == 1){
+			if(res->object[i]->state == 1){
 				show_object(scr, res->object[i]->on_bitmap, res->object[i]->yres, res->object[i]->xres, res->object[i]->xcoord, res->object[i]->ycoord);
 			}else{
 				show_object(scr, res->object[i]->off_bitmap, res->object[i]->yres, res->object[i]->xres, res->object[i]->xcoord, res->object[i]->ycoord);
@@ -68,11 +72,21 @@ int main(int argc, char **argv){
 		}
 
 		sleep(1);
-		if(res->object[0]->def_state == 1){
-			res->object[0]->def_state = 0;
+		if(res->object[0]->state == 1){
+			res->object[0]->state = 0;
 		}else{
-			res->object[0]->def_state = 1;
+			res->object[0]->state = 1;
 		}
+
+		switch(counter){
+			case 3: 	res->object[1]->state = 1;
+						break;
+			case 9: 	res->object[1]->state = 0;
+						break;
+			case 15: 	counter = 0;
+						break;
+		}
+		counter++;
 #ifdef DEBUG_MAIN
     printf("Iteration!\n");
 #endif

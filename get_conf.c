@@ -99,7 +99,7 @@ uint32_t parse_string(char *string, object_t *obj){
 	}
 
 	if(!strcmp(key, "default_state")){
-		obj->def_state = atoi(argument);
+		obj->state = atoi(argument);
 		obj->params |= DEF_STATE;
 	}
 
