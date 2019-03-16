@@ -97,14 +97,21 @@ uint32_t make_line(screen_t *scr, point_t start, point_t end){
 	uint32_t x_coef, y_coef = 0;
 	uint32_t x_pixel = 0, y_pixel = 0;
 
-	x_coef = end.x / end.y;
-	y_coef = end.y / end.x;
+	//Number of pixel on x axis
+	if(start.x < end.x){
+		x_pixel = end.x - start.x;
+	}else{
+		x_pixel = start.x - end.x;
+	}
 
-	x_pixel = end.x - start.x;
-	y_pixel = end.y - start.y;
+	//Number of pixel on y axis
+	if(start.y < end.y){
+		y_pixel = end.y - start.y;
+	}else{
+		y_pixel = start.y - end.y;
+	}
 
 	printf("x_pixels: %d; y_pixels: %d; x_coef: %d; y_coef: %d\n", x_pixel, y_pixel, x_coef, y_coef);
-
 
 
 //	if(x_pixel > y_pixel){
