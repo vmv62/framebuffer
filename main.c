@@ -38,13 +38,8 @@ int main(int argc, char **argv){
 	res = read_conf(default_config);
 
 
-#ifdef DEBUG_MAIN
-    printf("Program parametrs is read!\n");
-#endif
-
 	//Определяем параметры экрана на который будем выводть изображения
 	scr = init_screen("/dev/fb0");
-	//Считываем ресурсы изображения.
 
 #ifdef DEBUG_MAIN
     printf("Params:\t%d\n", res->object[0]->params);
@@ -92,13 +87,8 @@ int main(int argc, char **argv){
 #endif
 	}
 
-//show_object(scr, object[3]->bitmap[1]->byte_field, object[3]->bitmap[1]->height, object[3]->bitmap[1]->width, object[3]->x_coord, object[3]->y_coord);
 
 	free(res);
 	free(scr);
-/*	for(uint32_t i = 0; i < res->obj_count; i++){
-		free(object[i]);
-	}
-*/
 	return 0;
 }
