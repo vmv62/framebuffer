@@ -94,25 +94,48 @@ int show_object(screen_t *scr, uint8_t *byte_field, uint32_t height, uint32_t wi
 
 uint32_t make_line(screen_t *scr, point_t start, point_t end){
 	uint8_t *cursor;
+	uint32_t x_coef, y_coef = 0;
+	uint32_t x_pixel = 0, y_pixel = 0;
 
-	while((start.x =! end.x) && (start.y != end.y)){
-		cursor = scr->fbp + (start.x * start.y) + start.x;  //set curcor to start point of the line
-		*cursor = 0xFF;
-		*(++cursor) = 0xFF;
-		*(++cursor) = 0xFF;
-	//	*(++cursor) = 0xFF;
-		if(start.x > end.x){
-			start.x++;
+	x_coef = end.x / end.y;
+	y_coef = end.y / end.x;
+
+	x_pixel = end.x - start.x;
+	y_pixel = end.y - start.y;
+
+	printf("x_pixels: %d; y_pixels: %d; x_coef: %d; y_coef: %d\n", x_pixel, y_pixel, x_coef, y_coef);
+
+
+
+//	if(x_pixel > y_pixel){
+//		x_coef = x_pixel / y_pixel;
+//	}
+
+	
+
+/*
+	int count = 0;
+	while((start.x != end.x) && (start.y != end.y)){
+		cursor = scr->fbp + (scr->xres * start.y * 4) + (start.x * 4);  //set curcor to start point of the line
+		memset(cursor, 0xFF, 4);
+		count++;
+
+		if(start.x < end.x){
+			start.x ++;
 		}else{
-			start.x--;
-		}
-		if(start.y > end.y){
+				start.x--;
+			}
+
+
+		if(start.y < end.y){
 			start.y++;
 		}else{
-			start.y--;
-		}
-		printf("%d:%d\n", start.x, start.y);
+				start.y--;
+			}
+
+//		printf("%d:%d\n", start.x, start.y);
 	}
+*/
 
 	return 0;
 }
