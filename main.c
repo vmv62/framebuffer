@@ -52,8 +52,8 @@ int main(int argc, char **argv){
 
 #endif
 
-	point_t start = {0, 0};
-	point_t end = {400, 800};
+	point_t start = {100, 200};
+	point_t end = {400, 201};
 	make_line(scr, start, end);
 
 	uint32_t counter =0;

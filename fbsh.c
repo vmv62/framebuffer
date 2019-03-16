@@ -111,38 +111,25 @@ uint32_t make_line(screen_t *scr, point_t start, point_t end){
 		y_pixel = start.y - end.y;
 	}
 
+	if(x_pixel > y_pixel){
+		x_coef = x_pixel / y_pixel;
+	}else{
+		y_coef = y_pixel / x_pixel;
+	}
+
 	printf("x_pixels: %d; y_pixels: %d; x_coef: %d; y_coef: %d\n", x_pixel, y_pixel, x_coef, y_coef);
 
 
-//	if(x_pixel > y_pixel){
-//		x_coef = x_pixel / y_pixel;
-//	}
-
-	
-
-/*
-	int count = 0;
-	while((start.x != end.x) && (start.y != end.y)){
-		cursor = scr->fbp + (scr->xres * start.y * 4) + (start.x * 4);  //set curcor to start point of the line
-		memset(cursor, 0xFF, 4);
-		count++;
-
-		if(start.x < end.x){
-			start.x ++;
-		}else{
-				start.x--;
+	if(x_coef > 0){
+		while(end.y != start.y){
+			for(uint32_t i; i < x_coef; i++){
+				cursor = scr->fbp + (scr->xres * start.y * 4) + (start.x * 4);  //set curcor to start point of the line
+				memset(cursor, 0xFF, 4);
+				start.x++;
 			}
-
-
-		if(start.y < end.y){
 			start.y++;
-		}else{
-				start.y--;
-			}
-
-//		printf("%d:%d\n", start.x, start.y);
+		}
 	}
-*/
 
 	return 0;
 }
